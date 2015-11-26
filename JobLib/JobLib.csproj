@@ -40,26 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller.cs" />
-    <Compile Include="Customer.cs" />
-    <Compile Include="Database.cs" />
-    <Compile Include="Employee.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="Job.cs" />
-    <Compile Include="Joblist.cs" />
-    <Compile Include="JobService.cs" />
-    <Compile Include="Machine.cs" />
-    <Compile Include="Order.cs" />
-    <Compile Include="Production.cs" />
+    <Compile Include="Class\Control\Controller.cs" />
+    <Compile Include="Class\Control\Object\Customer.cs" />
+    <Compile Include="Class\Persistence\Database.cs" />
+    <Compile Include="Class\Control\Object\Employee.cs" />
+    <Compile Include="Class\Control\Object\Item.cs" />
+    <Compile Include="Class\Control\Object\Job.cs" />
+    <Compile Include="Class\Control\Object\Joblist.cs" />
+    <Compile Include="Class\Control\Object\Machine.cs" />
+    <Compile Include="Class\Control\Object\Order.cs" />
+    <Compile Include="Class\Control\Production.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewConsole.cs" />
-    <Compile Include="ViewControl.cs" />
+    <Compile Include="Class\View\ViewConsole.cs" />
+    <Compile Include="Class\View\ViewControl.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Class\Control\" />
-    <Folder Include="Class\Persistence\" />
-    <Folder Include="Class\View\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
