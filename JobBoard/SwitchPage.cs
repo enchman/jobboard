@@ -10,7 +10,7 @@ namespace JobBoard
     class SwitchPage
     {
 
-        internal static Screen currentPage;
+        internal static Screen CurrentPage;
         private static UserControl currentControl;
         private static UserControl prevControl;
 

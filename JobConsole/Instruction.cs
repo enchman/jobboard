@@ -33,5 +33,22 @@ namespace JobConsole
         {
             Schematics.RemoveAll(x => x.Id == id);
         }
+
+        public void RemoveScematic(Blueprint item)
+        {
+            Schematics.RemoveAll(x => x.WorkLines.SequenceEqual(item.WorkLines));
+        }
+
+        private void SetDefault()
+        {
+            foreach(Blueprint.DefaultItem item in Enum.GetValues(typeof(Blueprint.DefaultItem)))
+            {
+                if(item != Blueprint.DefaultItem.Customized)
+                {
+                    Blueprint form = new Blueprint();
+
+                }
+            }
+        }
     }
 }

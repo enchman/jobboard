@@ -23,7 +23,7 @@ namespace JobBoard
         public Screen()
         {
             InitializeComponent();
-            SwitchPage.currentPage = this;
+            SwitchPage.CurrentPage = this;
             SwitchPage.Next(new MainPage());
         }
 

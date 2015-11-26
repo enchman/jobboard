@@ -10,7 +10,11 @@ namespace JobConsole
     {
         private List<Customer> Customers = new List<Customer> { };
         private Instruction Fragments = new Instruction();
+        
+        public void RunRutine()
+        {
 
+        }
 
         #region Customer Action
 
@@ -51,6 +55,11 @@ namespace JobConsole
         #endregion
 
         private void WorkingRutine()
+        {
+
+        }
+
+        private void CheckOrder()
         {
 
         }

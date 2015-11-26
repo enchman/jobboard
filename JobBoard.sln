@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobBoard", "JobBoard\JobBoa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobConsole", "JobConsole\JobConsole.csproj", "{5135DF92-4ECE-4239-A05A-12CA910AD382}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobLib", "JobLib\JobLib.csproj", "{6FD206DE-6C39-44B3-9465-D53B699F9319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5135DF92-4ECE-4239-A05A-12CA910AD382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5135DF92-4ECE-4239-A05A-12CA910AD382}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5135DF92-4ECE-4239-A05A-12CA910AD382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FD206DE-6C39-44B3-9465-D53B699F9319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FD206DE-6C39-44B3-9465-D53B699F9319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FD206DE-6C39-44B3-9465-D53B699F9319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FD206DE-6C39-44B3-9465-D53B699F9319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

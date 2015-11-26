@@ -11,10 +11,30 @@ namespace JobConsole
         public enum Instruction { Punching = 4, Welding = 10, Bending = 6, LaserCutter = 10, Milling = 10, Shears = 6, Assembling = 10 }
         public enum DefaultItem { Customized, Normal, Bread, Toast, Press }
 
-        public int Id;
+        public int Id
+        {
+            get
+            {
+                return this.blueprintId;
+            }
+            set
+            {
+                this.blueprintId = value;
+            }
+        }
+
         public DefaultItem Type;
         public Dictionary<Instruction, int> WorkLines = new Dictionary<Instruction, int> { };
 
+        private int blueprintId = 1;
+
+        public static int Increment = 1;
+
+        public Blueprint()
+        {
+            this.Id = Increment;
+            Increment++;
+        }
 
         /// <summary>
         /// Initiate Customized Makeup (Dynamic)
@@ -22,6 +42,8 @@ namespace JobConsole
         /// <param name="instructions">List of Requirements</param>
         public Blueprint(List<Instruction> instructions)
         {
+            this.Id = Increment;
+            Increment++;
             foreach (Instruction item in instructions)
             {
                 if (WorkLines.ContainsKey(item))
@@ -41,6 +63,8 @@ namespace JobConsole
         /// <param name="instructions">Dictionary List of Requirements</param>
         public Blueprint(Dictionary<Instruction, int> instructions)
         {
+            this.Id = Increment;
+            Increment++;
             this.WorkLines = instructions;
         }
 

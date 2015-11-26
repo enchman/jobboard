@@ -9,12 +9,14 @@ namespace JobConsole
     class Item
     {
         public int Id;
-        public string Name;
         private Blueprint Type;
+
+        public static int Increment = 1;
 
         public Item()
         {
-
+            this.Id = Increment;
+            Increment++;
         }
 
         public Item(int id)
@@ -22,9 +24,11 @@ namespace JobConsole
             this.Id = id;
         }
 
-        public Item(string name)
+        public Item(Blueprint type)
         {
-            this.Id = id;
+            this.Type = type;
+            this.Id = Increment;
+            Increment++;
         }
     }
 }
