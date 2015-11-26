@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Timers;
 namespace JobLib
 {
-    class Production
+    public class Production
     {
         public enum Status { None, Active, Pause, Done }
 
@@ -36,6 +36,7 @@ namespace JobLib
             }
         }
 
+        public Dictionary<Machine, int> Machines = new Dictionary<Machine, int> { };
 
         public List<Joblist> Works = new List<Joblist> { };
 

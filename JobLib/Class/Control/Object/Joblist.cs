@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JobLib
 {
-    class Joblist
+    public class Joblist
     {
         public enum WorkProgress { Waiting, Active, Done, Cancel }
 

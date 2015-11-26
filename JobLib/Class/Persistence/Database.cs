@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace JobLib
 {
-    class Employee
+    public class Database
     {
-        public Joblist PersonalTask = new Joblist();
-
     }
 }

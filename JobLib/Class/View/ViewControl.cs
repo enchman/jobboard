@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JobLib
 {
-    class Database
+    public class ViewControl
     {
     }
 }

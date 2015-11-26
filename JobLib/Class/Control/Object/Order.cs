@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace JobLib
 {
-    class Order
+    public class Order
     {
         public List<Item> OrderLine = new List<Item> { };
-        public readonly Customer Owner;
         public DateTime OrderDate = DateTime.Now;
         public DateTime DeliverDate = new DateTime(1, 1, 1);
 
@@ -18,14 +17,8 @@ namespace JobLib
 
         }
 
-        public Order(Customer customer)
+        public Order(List<Item> items)
         {
-            this.Owner = customer;
-        }
-
-        public Order(Customer customer, List<Item> items)
-        {
-            this.Owner = customer;
             this.OrderLine = items;
         }
     }
