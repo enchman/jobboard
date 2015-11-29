@@ -27,6 +27,7 @@ namespace JobLib
 
         private ItemType category = ItemType.Customized;
 
+        #region Constructor
         public Item()
         {
             this.DefaultType();
@@ -37,7 +38,21 @@ namespace JobLib
             this.Type = type;
             this.DefaultType(type);
         }
+        #endregion
 
+        #region Persistance Mode
+        public void Add()
+        {
+
+        }
+
+        public void Remove()
+        {
+
+        }
+        #endregion
+
+        #region Default Setup
         private void DefaultType()
         {
             this.SetDefault(Type);
@@ -82,6 +97,6 @@ namespace JobLib
                 }
             }
         }
-
+        #endregion
     }
 }

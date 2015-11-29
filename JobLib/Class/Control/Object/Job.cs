@@ -29,5 +29,15 @@ namespace JobLib
         {
             this.Work = word;
         }
+
+        public void Add()
+        {
+
+        }
+
+        public void Remove()
+        {
+
+        }
     }
 }

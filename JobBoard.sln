@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobLib", "JobLib\JobLib.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientConsole", "ClientConsole\ClientConsole.csproj", "{C580E7F2-8A7F-4B9C-ACD7-575321F0E04C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobEngine", "JobEngine\JobEngine.csproj", "{B610E561-D3CD-4CB5-B660-807B5AD248E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C580E7F2-8A7F-4B9C-ACD7-575321F0E04C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C580E7F2-8A7F-4B9C-ACD7-575321F0E04C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C580E7F2-8A7F-4B9C-ACD7-575321F0E04C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B610E561-D3CD-4CB5-B660-807B5AD248E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B610E561-D3CD-4CB5-B660-807B5AD248E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B610E561-D3CD-4CB5-B660-807B5AD248E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B610E561-D3CD-4CB5-B660-807B5AD248E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
