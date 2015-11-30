@@ -40,6 +40,8 @@ namespace JobEngine
 
         }
 
+        
+
         public bool Query(string query)
         {
             try
