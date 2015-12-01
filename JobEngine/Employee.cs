@@ -13,6 +13,7 @@ namespace JobEngine
 
         public string Firstname { get; set; }
         public string Lastname { get; set; }
+        public string Username { get; set; }
 
         public int Id
         {
@@ -44,6 +45,42 @@ namespace JobEngine
         public void Sync()
         {
 
+        }
+
+        public void Add()
+        {
+            if(Id == 0 && Firstname != null && Lastname != null && Username != null)
+            {
+                Dictionary<string, object> param = new Dictionary<string, object> { };
+                param.Add("user", Username);
+                param.Add("username", Firstname);
+                param.Add("lastname", Lastname);
+
+                Db db = new Db("setEmployee", param);
+                Load(db.Fetch());
+            }
+        }
+
+        public void Edit()
+        {
+
+        }
+
+        public void Remove()
+        {
+
+        }
+
+        private void Load(List<Dictionary<string, object>> data)
+        {
+            if(data.Count != 0)
+            {
+                Dictionary<string, object> source = data.ElementAt(0);
+                employeeId = (int)source["id"];
+                Username = source["user"].ToString();
+                Firstname = source["firstname"].ToString();
+                Lastname = source["lastname"].ToString();
+            }
         }
     }
 }
