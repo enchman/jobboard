@@ -12,6 +12,7 @@ namespace JobEngine
 
         private int itemId = 0;
         private List<Machine.Function> itemProcess = new List<Machine.Function> { };
+        private int numItems = 0;
 
         public int Id
         {
@@ -20,6 +21,19 @@ namespace JobEngine
                 return itemId;
             }
         }
+
+        public int InStock
+        {
+            get
+            {
+                return numItems;
+            }
+            set
+            {
+
+            }
+        }
+
         public List<Machine.Function> Instructions
         {
             get
@@ -56,6 +70,28 @@ namespace JobEngine
         }
 
         public void Sync()
+        {
+
+        }
+
+        public void Add()
+        {
+            // Create new item
+            if(Id == 0)
+            {
+                Db db = new Db("setItem");
+                Dictionary<string, object> param = new Dictionary<string, object> { };
+                param.Add("name");
+            }
+            // Update item
+            else
+            {
+
+            }
+                
+        }
+
+        public void Delete()
         {
 
         }

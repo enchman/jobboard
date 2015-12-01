@@ -11,7 +11,7 @@ namespace JobEngine
 {
     public class Db
     {
-        private string localDb = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Database.mdf;Integrated Security=True";
+        private string localDb = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Case.mdf;Integrated Security=True";
         private int numRows = 0;
 
         public string SqlQuery { get; set; }
@@ -67,15 +67,84 @@ namespace JobEngine
 
         public bool Execute()
         {
-            return ExecuteSql(GetCommandType());
+            if(SqlQuery.Length == 0)
+            {
+                throw new Exception("Need to set SQL query before execution");
+            }
+            else
+            {
+                return ExecuteSql(GetCommandType());
+            }
         }
 
         public bool Execute(CommandType type)
         {
-            return ExecuteSql(type);
+            if (SqlQuery.Length == 0)
+            {
+                throw new Exception("Need to set SQL query before execution");
+            }
+            else
+            {
+                return ExecuteSql(type);
+            }
         }
 
         public List<Dictionary<string, object>> Fetch()
+        {
+            if(SqlQuery.Length == 0)
+            {
+                throw new Exception("Need to set SQL query before fetching data");
+            }
+            else
+            {
+                return FetchList();
+            }
+        }
+
+        private bool ExecuteSql(CommandType type)
+        {
+            using (SqlConnection connect = new SqlConnection(ConnectData))
+            {
+                using (SqlCommand command = new SqlCommand())
+                {
+                    try
+                    {
+                        // Open connection
+                        connect.Open();
+
+                        command.CommandText = SqlQuery;
+                        command.CommandType = type;
+                        command.Connection = connect;
+
+                        // Prepare Statement
+                        if (Parameters.Count != 0)
+                        {
+                            foreach (KeyValuePair<string, object> item in Parameters)
+                            {
+                                command.Parameters.AddWithValue("@" + item.Key, item.Value);
+                            }
+                        }
+
+                        // Stored procedure
+                        if (type == CommandType.StoredProcedure)
+                        {
+                            command.Prepare();
+                        }
+
+                        // Execute statement
+                        numRows = command.ExecuteNonQuery();
+
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        private List<Dictionary<string, object>> FetchList()
         {
             using (SqlConnection connect = new SqlConnection(ConnectData))
             {
@@ -140,51 +209,6 @@ namespace JobEngine
                 }
             }
         }
-
-        private bool ExecuteSql(CommandType type)
-        {
-            using (SqlConnection connect = new SqlConnection(ConnectData))
-            {
-                using (SqlCommand command = new SqlCommand())
-                {
-                    try
-                    {
-                        // Open connection
-                        connect.Open();
-
-                        command.CommandText = SqlQuery;
-                        command.CommandType = type;
-                        command.Connection = connect;
-
-                        // Prepare Statement
-                        if (Parameters.Count != 0)
-                        {
-                            foreach (KeyValuePair<string, object> item in Parameters)
-                            {
-                                command.Parameters.AddWithValue("@" + item.Key, item.Value);
-                            }
-                        }
-
-                        // Stored procedure
-                        if (type == CommandType.StoredProcedure)
-                        {
-                            command.Prepare();
-                        }
-
-                        // Execute statement
-                        numRows = command.ExecuteNonQuery();
-
-                        return true;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        
 
         private CommandType GetCommandType()
         {
