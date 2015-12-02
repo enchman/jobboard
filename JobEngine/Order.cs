@@ -71,10 +71,33 @@ namespace JobEngine
         }
 
         #region Global
-        //public static List<Order> GetOrders()
-        //{
-            
-        //}
+        public static List<Order> GetOrders()
+        {
+            Database db = new Database("SELECT * FROM [viewOrderList]");
+            List<Dictionary<string, object>> data = db.Fetch();
+
+            if(data != null)
+            {
+                List<Order> orders = new List<Order> { };
+
+                foreach (Dictionary<string, object> item in data)
+                {
+                    int id = (int)item["id"];
+                    int cid = (int)item["customerId"];
+                    DateTime oDate = (DateTime)item["orderDate"];
+                    DateTime eDate = (DateTime)item["expectDate"];
+                    DateTime? dDate = (DateTime?)item["deliverDate"];
+
+                    orders.Add(new Order(id, cid, oDate, eDate, dDate));
+                }
+
+                return orders;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
 
         #endregion

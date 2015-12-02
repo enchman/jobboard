@@ -8,7 +8,8 @@ namespace JobEngine
 {
     public class Controller
     {
-        private List<Customer> customers = new List<Customer> { };
+        //private List<Customer> customers = new List<Customer> { };
+        private static List<Order> Orders = new List<Order> { };
         private static Dictionary<Employee, bool> Workers = new Dictionary<Employee, bool> { };
 
         public Controller()
@@ -77,8 +78,10 @@ namespace JobEngine
         #region Control
         private void Load()
         {
-            // Load customers
+            // Load unfinish
+            Orders = Order.GetOrders();
             
+
         }
         #endregion
     }

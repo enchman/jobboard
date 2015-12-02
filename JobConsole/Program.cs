@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using JobEngine;
 using System.Data.SqlClient;
 using System.Data;
+
 namespace JobConsole
 {
     class Program
@@ -14,7 +15,23 @@ namespace JobConsole
         static void Main(string[] args)
         {
             //Initialize();
-            Run();
+            //Run();
+            TraceMessage("Hello world");
+        }
+
+        static void TraceMessage(string message,
+        [System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
+        [System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
+        [System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
+        {
+            System.Diagnostics.Trace.WriteLine("message: " + message);
+            System.Diagnostics.Trace.WriteLine("member name: " + memberName);
+            System.Diagnostics.Trace.WriteLine("source file path: " + sourceFilePath);
+            System.Diagnostics.Trace.WriteLine("source line number: " + sourceLineNumber);
+            int index = sourceFilePath.LastIndexOf(@"\");
+            string path = sourceFilePath.Substring(index + 1);
+            Console.WriteLine(path);
+            Console.ReadKey();
         }
 
         static void Run()

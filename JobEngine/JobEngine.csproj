@@ -61,11 +61,11 @@
     <Compile Include="Db.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="Job.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Machine.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderLine.cs" />
-    <Compile Include="Production.cs" />
-    <Compile Include="ProductLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

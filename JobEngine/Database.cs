@@ -225,7 +225,14 @@ namespace JobEngine
                             numRows++;
                         }
 
-                        return dataList;
+                        if(dataList.Count == 0)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            return dataList;
+                        }
                     }
                 }
             }
