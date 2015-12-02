@@ -73,5 +73,13 @@ namespace JobEngine
 
         }
         #endregion
+
+        #region Control
+        private void Load()
+        {
+            // Load customers
+            
+        }
+        #endregion
     }
 }

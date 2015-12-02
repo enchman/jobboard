@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JobLib;
+//using JobLib;
 using JobEngine;
 using System.Data.SqlClient;
 using System.Data;
@@ -23,7 +23,10 @@ namespace JobConsole
             Console.WriteLine("Press Any to continue");
             while(Console.ReadKey().Key != ConsoleKey.Escape)
             {
-                PrepareParam();
+                //PrepareParam();
+                //Database db = new Database("SELECT * FROM viewCustomers");
+                //List<Dictionary<string, object>> data = db.Fetch();
+                //DisplayData(data);
             }
         }
 
@@ -111,6 +114,28 @@ namespace JobConsole
             {
                 Console.Clear();
                 Console.WriteLine("Cancel SQL");
+            }
+        }
+
+        static void DisplayData(List<Dictionary<string, object>> data)
+        {
+            if(data != null)
+            {
+                foreach(Dictionary<string, object> item in data)
+                {
+                    foreach(KeyValuePair<string, object> row in item)
+                    {
+                        Console.Write("{0}", row.Key);
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write(":");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write("{0}", row.Value);
+                        Console.ResetColor();
+                        Console.Write("; ");
+                    }
+                    Console.WriteLine();
+                }
             }
         }
     }

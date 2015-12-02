@@ -1,31 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
-using System.Timers;
+
 namespace JobEngine
 {
-    class Database
+    public class Database
     {
-        private string connectData = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Database.mdf;Integrated Security=True";
-        private bool status = false;
-        private int numRows = 0;
-        private SqlConnection Connection;
-        private SqlCommand Command;
-        private SqlDataReader Data;
-        private Timer timeout;
-        private int duration = 20000;
+        public enum Validation { Connecton, Query, Data }
 
-        public bool Success
+        private bool recallSql = false;
+        private string connectString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Case.mdf;Integrated Security=True";
+        private int numRows = 0;
+
+        public bool FastRecall
         {
             get
             {
-                return status;
+                return recallSql;
+            }
+            set
+            {
+                recallSql = value;
             }
         }
+
+        public string Query { get; set; }
+
+        public Dictionary<string, object> Parameters = null;
 
         public int Rows
         {
@@ -35,66 +38,61 @@ namespace JobEngine
             }
         }
 
+
+        public Database(string query)
+        {
+            // Set SQL query
+            Query = query;
+        }
+
         public Database(string query, Dictionary<string, object> param)
         {
-
+            // Set SQL query
+            Query = query;
+            // Set Query Parameters
+            Parameters = param;
         }
 
-        
-
-        public bool Query(string query)
+        public Database(string query, Dictionary<string, object> param, bool recall)
         {
+            // Set SQL query
+            Query = query;
+            // Set Query Parameters
+            Parameters = param;
+            // Set Recall for Prepare query in server for faster execution (same query)
+            recallSql = recall;
+        }
+
+        /// <summary>
+        /// Execute General SQL Query
+        /// if needed for execute stored procedure use Database.Procedure() instead
+        /// </summary>
+        public void Execute()
+        {
+            // Running SQL query
             try
             {
-                // Open connection
-                Connection.Open();
-
-                // Execute SQL Query
-                Command = new SqlCommand(query, Connection);
-                Data = Command.ExecuteReader();
-
-                // Set SQL status
-                status = true;
-
-                // Initiate Auto Dispose
-                Determinate();
-
-                return true;
+                ExecuteSql(CommandType.Text);
             }
-            catch
+            catch (Exception exc)
             {
-                return false;
+                Error(exc);
             }
         }
 
-        public bool Query(string query, Dictionary<string, object> param)
+        /// <summary>
+        /// Execute Stored Procedure
+        /// </summary>
+        public void Procedure()
         {
+            // Running SQL query
             try
             {
-                // Open connection
-                Connection.Open();
-
-                // Prepare statement
-                Command = new SqlCommand(query, Connection);
-                foreach (KeyValuePair<string, object> item in param)
-                {
-                    Command.Parameters.AddWithValue("@" + item.Key, item.Value);
-                }
-
-                // Execute SQL Query
-                Data = Command.ExecuteReader();
-
-                // Set SQL status
-                status = true;
-
-                // Initiate Auto Dispose
-                Determinate();
-
-                return true;
+                ExecuteSql(CommandType.StoredProcedure);
             }
-            catch
+            catch (Exception exc)
             {
-                return false;
+                Error(exc);
             }
         }
 
@@ -102,100 +100,154 @@ namespace JobEngine
         {
             try
             {
-                // Prepare data list
-                List<Dictionary<string, object>> dataList = new List<Dictionary<string, object>> { };
-
-                // Reading SQL data
-                while (Data.Read())
-                {
-                    // Prepare Associative array
-                    Dictionary<string, object> item = new Dictionary<string, object> { };
-
-                    // Adding SQL result in to array
-                    for (int i = 0; i < Data.FieldCount; i++)
-                    {
-                        item.Add(Data.GetName(i), Data.GetValue(i));
-                    }
-
-                    // Adding to data list
-                    dataList.Add(item);
-
-                    // Increase number of rows
-                    numRows++;
-                }
-                Done();
-                return dataList;
+                return Fetching(CommandType.Text);
             }
-            catch
+            catch (Exception exc)
             {
-                Done();
-                return new List<Dictionary<string, object>> { };
+                Error(exc);
+                return null;
             }
         }
 
-        public void Done()
-        {
-            if(Command != null)
-            {
-                Command.Dispose();
-            }
-            if(Data != null)
-            {
-                Data.Close();
-            }
-            if(Connection != null)
-            {
-                Connection.Close();
-                Connection.Dispose();
-            }
-            ClearTimer();
-        }
-
-        public void Done(object source, ElapsedEventArgs e)
-        {
-            if (Command != null)
-            {
-                Command.Dispose();
-            }
-            if (Data != null)
-            {
-                Data.Close();
-            }
-            if (Connection != null)
-            {
-                Connection.Dispose();
-                Connection.Close();
-            }
-            ClearTimer();
-        }
-
-        /// <summary>
-        /// Auto Dispose object(Self destruction)
-        /// If the object is not manually dispose, within 20 seconds Timer will trig Object Determination
-        /// </summary>
-        private void Determinate()
-        {
-            timeout = new Timer(duration);
-            timeout.Elapsed += Done;
-            timeout.AutoReset = false;
-            timeout.Enabled = true;
-        }
-
-        private void ClearTimer()
-        {
-            timeout.Stop();
-            timeout.Dispose();
-        }
-
-        private void Establish()
+        public List<Dictionary<string, object>> FetchProcedure()
         {
             try
             {
-                Connection = new SqlConnection(connectData);
+                return Fetching(CommandType.Text);
             }
-            catch
+            catch (Exception exc)
             {
+                Error(exc);
+                return null;
+            }
+        }
 
+        private void Error(Exception exc)
+        {
+            Console.WriteLine("SQL Error: {0}", exc.Message);
+        }
+
+        private void ExecuteSql(CommandType type)
+        {
+            using (SqlConnection connect = new SqlConnection(connectString))
+            {
+                // Validation SQL Query
+                CheckState();
+
+                // Open Database Connection
+                connect.Open();
+
+                using (SqlCommand command = new SqlCommand(Query, connect))
+                {
+                    // Prepare statement
+                    if (Parameters != null)
+                    {
+                        foreach (KeyValuePair<string, object> item in Parameters)
+                        {
+                            command.Parameters.AddWithValue("@" + item.Key, item.Value);
+                        }
+                    }
+
+                    // Query type
+                    if (type != CommandType.Text)
+                    {
+                        command.CommandType = type;
+                    }
+
+                    // Stored query
+                    if (recallSql)
+                    {
+                        command.Prepare();
+                    }
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private List<Dictionary<string, object>> Fetching(CommandType type)
+        {
+            // Database connection
+            using (SqlConnection connect = new SqlConnection(connectString))
+            {
+                // Validation Query string
+                CheckState();
+
+                // Open Database Connection
+                connect.Open();
+
+                // SQL Commands
+                using (SqlCommand command = new SqlCommand(Query, connect))
+                {
+                    // Prepare statement
+                    if (Parameters != null)
+                    {
+                        foreach (KeyValuePair<string, object> item in Parameters)
+                        {
+                            command.Parameters.AddWithValue("@" + item.Key, item.Value);
+                        }
+                    }
+
+                    // Query type
+                    if (type != CommandType.Text)
+                    {
+                        command.CommandType = type;
+                    }
+
+                    // Stored query
+                    if (recallSql)
+                    {
+                        command.Prepare();
+                    }
+
+                    // SQL Data results
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        // Prepare data list
+                        List<Dictionary<string, object>> dataList = new List<Dictionary<string, object>> { };
+
+                        // Reading SQL data
+                        while (reader.Read())
+                        {
+                            // Prepare Associative array
+                            Dictionary<string, object> item = new Dictionary<string, object> { };
+
+                            // Adding SQL result in to array
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                item.Add(reader.GetName(i), reader.GetValue(i));
+                            }
+
+                            // Adding to data list
+                            dataList.Add(item);
+
+                            // Increase number of rows
+                            numRows++;
+                        }
+
+                        return dataList;
+                    }
+                }
+            }
+        }
+
+        private void CheckState()
+        {
+            if (Query == null)
+            {
+                throw new Exception("Empty query");
+            }
+        }
+
+        private void CheckState(Validation valid)
+        {
+            if (valid == Validation.Query && Query == null)
+            {
+                throw new Exception("Empty query");
+            }
+            else if (valid == Validation.Connecton && connectString == null)
+            {
+                throw new Exception("Empty connection string");
             }
         }
     }

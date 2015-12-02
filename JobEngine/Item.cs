@@ -81,7 +81,7 @@ namespace JobEngine
             {
                 Db db = new Db("setItem");
                 Dictionary<string, object> param = new Dictionary<string, object> { };
-                param.Add("name");
+                //param.Add("name");
             }
             // Update item
             else

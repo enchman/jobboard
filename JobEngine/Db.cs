@@ -18,6 +18,8 @@ namespace JobEngine
 
         public Dictionary<string, object> Parameters { get; set; }
 
+        public CommandType Type { get; set; }
+
         public int Rows
         {
             get

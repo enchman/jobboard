@@ -10,8 +10,12 @@
 
 ################	RELEASE NOTE		################
 
+(2015-12-02)
++ Controller: Order & Items Management
+
 (2015-12-01)
 + SQL: Database procedure
+
 (2015-12-30)
 + SQL: Create Database & Tables
 
