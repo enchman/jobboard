@@ -48,90 +48,90 @@ namespace JobConsole
 
         static void Initialize()
         {
-            do
-            {
-                Console.Write("Query: ");
-                string sql = Console.ReadLine();
-                Console.Clear();
-                Console.WriteLine(sql);
+            //do
+            //{
+            //    Console.Write("Query: ");
+            //    string sql = Console.ReadLine();
+            //    Console.Clear();
+            //    Console.WriteLine(sql);
 
-                Console.Write("Firstname: ");
-                string firstname = Console.ReadLine();
+            //    Console.Write("Firstname: ");
+            //    string firstname = Console.ReadLine();
 
-                Console.Write("Lastname: ");
-                string lastname = Console.ReadLine();
+            //    Console.Write("Lastname: ");
+            //    string lastname = Console.ReadLine();
 
-                Console.Write("Phone: ");
-                string phone = Console.ReadLine();
+            //    Console.Write("Phone: ");
+            //    string phone = Console.ReadLine();
 
-                Console.Write("Email: ");
-                string email = Console.ReadLine();
+            //    Console.Write("Email: ");
+            //    string email = Console.ReadLine();
 
-                Dictionary<string, object> param = new Dictionary<string, object> { };
-                param.Add("firstname", firstname);
-                param.Add("lastname", lastname);
-                param.Add("phone", phone);
-                param.Add("email", email);
+            //    Dictionary<string, object> param = new Dictionary<string, object> { };
+            //    param.Add("firstname", firstname);
+            //    param.Add("lastname", lastname);
+            //    param.Add("phone", phone);
+            //    param.Add("email", email);
 
-                Db db = new Db(sql, param);
-                db.Execute(System.Data.CommandType.StoredProcedure);
+            //    Db db = new Db(sql, param);
+            //    db.Execute(System.Data.CommandType.StoredProcedure);
 
-                Console.Clear();
-                Console.WriteLine("Execute -> {0}", sql);
-            }
-            while (Console.ReadKey().Key != ConsoleKey.Escape);
+            //    Console.Clear();
+            //    Console.WriteLine("Execute -> {0}", sql);
+            //}
+            //while (Console.ReadKey().Key != ConsoleKey.Escape);
         }
 
-        static void PrepareParam()
-        {
-            Console.WriteLine("Running SQL");
-            Dictionary<string, object> param = new Dictionary<string, object> { };
+        //static void PrepareParam()
+        //{
+        //    Console.WriteLine("Running SQL");
+        //    Dictionary<string, object> param = new Dictionary<string, object> { };
 
-            Console.Write("Query: ");
-            string sql = Console.ReadLine();
+        //    Console.Write("Query: ");
+        //    string sql = Console.ReadLine();
 
-            Console.Clear();
+        //    Console.Clear();
 
-            Console.WriteLine("Press Enter to add parameters");
+        //    Console.WriteLine("Press Enter to add parameters");
 
-            while (Console.ReadKey().Key == ConsoleKey.Enter)
-            {
-                Console.Write("Parameter name: ");
-                string name = Console.ReadLine();
-                Console.Write("Parameter value: ");
-                string value = Console.ReadLine();
+        //    while (Console.ReadKey().Key == ConsoleKey.Enter)
+        //    {
+        //        Console.Write("Parameter name: ");
+        //        string name = Console.ReadLine();
+        //        Console.Write("Parameter value: ");
+        //        string value = Console.ReadLine();
 
-                Console.Clear();
-                param.Add(name, value);
-                Console.WriteLine("Press Enter to add more");
-            }
+        //        Console.Clear();
+        //        param.Add(name, value);
+        //        Console.WriteLine("Press Enter to add more");
+        //    }
 
-            Console.Clear();
+        //    Console.Clear();
 
-            Console.WriteLine("Want to run \"{0}\"", sql);
-            Console.WriteLine("Press ENTER to run");
-            if(Console.ReadKey().Key == ConsoleKey.Enter)
-            {
-                Db db;
-                if (param.Count != 0)
-                {
-                    db = new Db(sql, param);
-                }
-                else
-                {
-                    db = new Db(sql);
-                }
+        //    Console.WriteLine("Want to run \"{0}\"", sql);
+        //    Console.WriteLine("Press ENTER to run");
+        //    if(Console.ReadKey().Key == ConsoleKey.Enter)
+        //    {
+        //        Db db;
+        //        if (param.Count != 0)
+        //        {
+        //            db = new Db(sql, param);
+        //        }
+        //        else
+        //        {
+        //            db = new Db(sql);
+        //        }
 
-                db.Execute();
+        //        db.Execute();
 
-                Console.WriteLine("Executed query");
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("Cancel SQL");
-            }
-        }
+        //        Console.WriteLine("Executed query");
+        //    }
+        //    else
+        //    {
+        //        Console.Clear();
+        //        Console.WriteLine("Cancel SQL");
+        //    }
+        //}
 
         static void DisplayData(List<Dictionary<string, object>> data)
         {

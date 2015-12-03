@@ -10,6 +10,7 @@ namespace JobEngine
     {
         private int itemId = 0;
         private int numItems = 0;
+        private Dictionary<int, int> machines = new Dictionary<int, int> { };
 
         public int Id
         {
@@ -31,6 +32,14 @@ namespace JobEngine
             }
         }
 
+        public Dictionary<int,int> Parts
+        {
+            get
+            {
+                return machines;
+            }
+        }
+
         public string Name { get; set; }
 
         #region Constructor
@@ -39,7 +48,15 @@ namespace JobEngine
 
         }
 
-        
+        public Item(int id, string name, int stock)
+        {
+
+        }
+
+        public Item(int id, string name, int stock, Dictionary<int, int> part)
+        {
+
+        }
 
         #endregion
         public void Sync()
@@ -49,18 +66,7 @@ namespace JobEngine
 
         public void Add()
         {
-            // Create new item
-            if(Id == 0)
-            {
-                Db db = new Db("setItem");
-                Dictionary<string, object> param = new Dictionary<string, object> { };
-                //param.Add("name");
-            }
-            // Update item
-            else
-            {
 
-            }
                 
         }
 
@@ -68,5 +74,7 @@ namespace JobEngine
         {
 
         }
+
+        
     }
 }

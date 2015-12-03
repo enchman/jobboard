@@ -14,7 +14,7 @@ namespace JobEngine
         private string connectString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Case.mdf;Integrated Security=True";
         private int numRows = 0;
 
-        public bool FastRecall
+        public bool Recall
         {
             get
             {

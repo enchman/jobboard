@@ -59,7 +59,7 @@ namespace JobEngine
                 param.Add("username", Firstname);
                 param.Add("lastname", Lastname);
 
-                Db db = new Db("setEmployee", param);
+                Database db = new Database("setEmployee", param);
                 Load(db.Fetch());
             }
         }
