@@ -11,11 +11,14 @@ namespace JobEngine
         //private List<Customer> customers = new List<Customer> { };
         private static List<Order> Orders = new List<Order> { };
         private static Dictionary<Employee, bool> Workers = new Dictionary<Employee, bool> { };
+        private static Production production = new Production();
 
         public Controller()
         {
 
         }
+
+        
 
         public void Run()
         {

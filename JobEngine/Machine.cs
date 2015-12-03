@@ -7,54 +7,19 @@ using System.Timers;
 
 namespace JobEngine
 {
-    public class Machine
+    public class Machine: Operation
     {
-        /// <summary>
-        /// Time cycle of work process in milisecond
-        /// </summary>
-        const int TIME_CYCLE = 1000;
-
         #region Properties
 
-        private int machineId = 0;
-        private string machineName = null;
-        private int machineDuration = 0;
-        private int numParts = 0;
-        private Timer cycle;
-
-        public int Id
-        {
-            get
-            {
-                return machineId;
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return machineName;
-            }
-        }
-
-        public int Duration
-        {
-            get
-            {
-                return machineDuration;
-            }
-        }
-
-        public int Part
-        {
-            get
-            {
-                return numParts;
-            }
-        }
+        /// <summary>
+        /// Time process of work process in milisecond
+        /// </summary>
+        private readonly int ClockCycle = 1000;
+        private readonly int OverWork = 30;
+        private Timer process = null;
 
         public Employee Worker { get; set; }
+
         #endregion
 
         #region Constructor
@@ -63,50 +28,109 @@ namespace JobEngine
 
         }
 
-        public Machine(int id, string name, int durable)
+        public Machine(Employee employee)
         {
-            machineId = id;
-            machineName = name;
-            machineDuration = durable;
+            Worker = employee;
         }
+
         #endregion
-
-        public void Sync()
-        {
-
-        }
 
         public void Start()
         {
-            if(cycle == null)
+            if(process == null)
             {
+                process = new Timer(base.Duration * ClockCycle);
+            }
+            else
+            {
+                process.Enabled = true;
+            }
+        }
 
+        public void Pause()
+        {
+            if(process != null)
+            {
+                process.Enabled = false;
             }
         }
 
         public void Stop()
         {
-
+            if(process != null)
+            {
+                // Stop event
+                process.Enabled = false;
+                // Releasing resources
+                process.Stop();
+                // Disposing object
+                process.Dispose();
+                // Nullify Timer object
+                process = null;
+            }
         }
 
-        public static List<Machine> GetMachines()
+        public bool CheckWorkerShift(Employee worker)
+        {
+            Worker = worker;
+            return false;
+            // CONTINUE
+        }
+
+        private void WorkLapse(object source, ElapsedEventArgs e)
+        {
+            if(Worker != null && CheckTime(e.SignalTime))
+            {
+                base.numParts++;
+                // Need to check employee is complete the task, if so nullify Machine.Worker
+
+            }
+            else
+            {
+                // Stop Machine
+                Stop();
+            }
+        }
+
+        private bool CheckTime(DateTime date)
+        {
+            if(Production.EndHour == date.Hour && Production.EndMinute >= date.Minute)
+            {
+                return true;
+            }
+            else if(Production.StartHour < date.Hour && Production.EndHour > date.Hour)
+            {
+                return true;
+            }
+            else if (Production.StartHour <= date.Hour && Production.EndHour > date.Hour)
+            {
+                return true;
+            }
+            else if ((Production.StartHour == date.Hour && Production.StartMinute >= date.Minute) && Production.EndHour > date.Hour)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        public static List<Operation> GetMachines()
         {
             Database db = new Database("SELECT * FROM [machines]");
             List<Dictionary<string,object>> dataList = db.Fetch();
             if(dataList != null)
             {
-                List<Machine> result = new List<Machine> { };
+                List<Operation> result = new List<Operation> { };
                 foreach(Dictionary<string, object> item in dataList)
                 {
                     int id = (int)item["id"];
                     int duration = (int)item["duration"];
                     int number = (int)item["amount"];
                     string name = (string)item["name"];
-
-                    for(int i = 0; i < number; i++)
-                    {
-                        result.Add(new Machine(id, name, duration));
-                    }
+                    result.Add(new Operation(id, name, duration, number));
                 }
 
                 if(result.Count != 0)

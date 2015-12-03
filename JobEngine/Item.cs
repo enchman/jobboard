@@ -50,12 +50,18 @@ namespace JobEngine
 
         public Item(int id, string name, int stock)
         {
-
+            itemId = id;
+            Name = name;
+            numItems = stock;
+            Load();
         }
 
         public Item(int id, string name, int stock, Dictionary<int, int> part)
         {
-
+            itemId = id;
+            Name = name;
+            numItems = stock;
+            machines = part;
         }
 
         #endregion
@@ -75,6 +81,21 @@ namespace JobEngine
 
         }
 
-        
+        private void Load()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object> { };
+            param.Add("id", itemId);
+            Database db = new Database("getItemProp", param);
+            List<Dictionary<string,object>> datalist = db.FetchProcedure();
+            if(datalist != null)
+            {
+                foreach (Dictionary<string,object> item in datalist)
+                {
+                    int id = (int)item["machineId"];
+                    int num = (int)item["amount"];
+                    machines.Add(id, num);
+                }
+            }
+        }
     }
 }

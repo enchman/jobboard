@@ -10,6 +10,9 @@
 
 ################	RELEASE NOTE		################
 
+(2015-12-03)
++ Machine: Work cycle for each object
+
 (2015-12-02)
 + Controller: Order & Items Management
 

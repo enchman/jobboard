@@ -8,22 +8,34 @@ namespace JobEngine
 {
     class Production
     {
-        private List<Machine> machines = new List<Machine> { };
+        #region Properties
+        public const int StartHour = 9;
+        public const int StartMinute = 0;
+        public const int EndHour = 16;
+        public const int EndMinute = 0;
+
+        private List<Operation> stations = new List<Operation> { };
+        #endregion
 
         public Production()
         {
+            // Load machine into production line
+            Load();
 
         }
 
         public void GetItem(Item item)
         {
-            
+            foreach (KeyValuePair<int, int> block in item.Parts)
+            {
+                
+            }
         }
 
         private void Load()
         {
             // Read machine
-            machines = Machine.GetMachines();
+            stations = Machine.GetMachines();
         }
     }
 }

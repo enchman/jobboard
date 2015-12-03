@@ -58,12 +58,12 @@
     <Compile Include="Controller.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="Db.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Machine.cs" />
+    <Compile Include="Operation.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderLine.cs" />
     <Compile Include="Production.cs" />
