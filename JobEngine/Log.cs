@@ -4,12 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace JobEngine
 {
-    class Log
+    public class Log
     {
-        public static bool FullPath = false;
+        private static bool fullpath = false;
+
+        public static bool FullPath
+        {
+            get
+            {
+                return fullpath;
+            }
+            set
+            {
+                fullpath = value;
+            }
+        }
+        
         public static void Record(
             [CallerLineNumber] int line = 0,
             [CallerMemberName] string method = "",
@@ -19,14 +33,17 @@ namespace JobEngine
             {
                 Dictionary<string, object> param = new Dictionary<string, object> { };
                 param.Add("line", line);
-                param.Add("occurDate", DateTime.Now);
+                param.Add("date", DateTime.Now);
                 param.Add("method", method);
                 param.Add("file", TrimPath(path));
-                new Database("recordError", param).FetchProcedure();
+                new Database("recordError", param).Procedure();
             }
             catch
             {
-
+                Trace.WriteLine("Line: " + line);
+                Trace.WriteLine("Date: " + line);
+                Trace.WriteLine("Method: " + line);
+                Trace.WriteLine("Location: " + line);
             }
         }
 
@@ -39,15 +56,19 @@ namespace JobEngine
             {
                 Dictionary<string, object> param = new Dictionary<string, object> { };
                 param.Add("line", line);
-                param.Add("occurDate", DateTime.Now);
+                param.Add("date", DateTime.Now);
                 param.Add("method", method);
                 param.Add("file", TrimPath(path));
                 param.Add("message", message);
-                new Database("recordError", param).FetchProcedure();
+                new Database("recordError", param).Procedure();
             }
             catch
             {
-
+                Trace.WriteLine("Message: " + message);
+                Trace.WriteLine("Line: " + line);
+                Trace.WriteLine("Date: " + line);
+                Trace.WriteLine("Method: " + line);
+                Trace.WriteLine("Location: " + line);
             }
         }
 

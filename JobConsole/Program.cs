@@ -16,7 +16,6 @@ namespace JobConsole
         {
             //Initialize();
             //Run();
-            TraceMessage("Hello world");
         }
 
         static void TraceMessage(string message,

@@ -113,7 +113,7 @@ namespace JobEngine
         {
             try
             {
-                return Fetching(CommandType.Text);
+                return Fetching(CommandType.StoredProcedure);
             }
             catch (Exception exc)
             {
