@@ -72,9 +72,22 @@ namespace JobEngine
 
         public bool CheckWorkerShift(Employee worker)
         {
-            Worker = worker;
-            return false;
-            // CONTINUE
+            if(worker.Joblist != null)
+            {
+                if(worker.Joblist.Any(x => CheckTime(x.TaskDate)))
+                {
+                    Worker = worker;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void WorkLapse(object source, ElapsedEventArgs e)
@@ -94,28 +107,34 @@ namespace JobEngine
 
         private bool CheckTime(DateTime date)
         {
-            if(Production.EndHour == date.Hour && Production.EndMinute >= date.Minute)
+            if(date.DayOfYear == DateTime.Now.DayOfYear)
             {
-                return true;
-            }
-            else if(Production.StartHour < date.Hour && Production.EndHour > date.Hour)
-            {
-                return true;
-            }
-            else if (Production.StartHour <= date.Hour && Production.EndHour > date.Hour)
-            {
-                return true;
-            }
-            else if ((Production.StartHour == date.Hour && Production.StartMinute >= date.Minute) && Production.EndHour > date.Hour)
-            {
-                return true;
+                if (Production.EndHour == date.Hour && Production.EndMinute >= date.Minute)
+                {
+                    return true;
+                }
+                else if (Production.StartHour < date.Hour && Production.EndHour > date.Hour)
+                {
+                    return true;
+                }
+                else if (Production.StartHour <= date.Hour && Production.EndHour > date.Hour)
+                {
+                    return true;
+                }
+                else if ((Production.StartHour == date.Hour && Production.StartMinute >= date.Minute) && Production.EndHour > date.Hour)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
                 return false;
             }
         }
-
 
         public static List<Operation> GetMachines()
         {

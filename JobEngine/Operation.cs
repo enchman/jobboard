@@ -8,11 +8,6 @@ namespace JobEngine
 {
     public class Operation
     {
-        /// <summary>
-        /// Time cycle of work process in milisecond
-        /// </summary>
-        const int TIME_CYCLE = 1000;
-
         #region Properties
 
         private List<Machine> stations = new List<Machine> { };

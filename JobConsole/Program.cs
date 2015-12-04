@@ -48,38 +48,7 @@ namespace JobConsole
 
         static void Initialize()
         {
-            //do
-            //{
-            //    Console.Write("Query: ");
-            //    string sql = Console.ReadLine();
-            //    Console.Clear();
-            //    Console.WriteLine(sql);
-
-            //    Console.Write("Firstname: ");
-            //    string firstname = Console.ReadLine();
-
-            //    Console.Write("Lastname: ");
-            //    string lastname = Console.ReadLine();
-
-            //    Console.Write("Phone: ");
-            //    string phone = Console.ReadLine();
-
-            //    Console.Write("Email: ");
-            //    string email = Console.ReadLine();
-
-            //    Dictionary<string, object> param = new Dictionary<string, object> { };
-            //    param.Add("firstname", firstname);
-            //    param.Add("lastname", lastname);
-            //    param.Add("phone", phone);
-            //    param.Add("email", email);
-
-            //    Db db = new Db(sql, param);
-            //    db.Execute(System.Data.CommandType.StoredProcedure);
-
-            //    Console.Clear();
-            //    Console.WriteLine("Execute -> {0}", sql);
-            //}
-            //while (Console.ReadKey().Key != ConsoleKey.Escape);
+            
         }
 
         //static void PrepareParam()

@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace JobEngine
 {
-    class Job
+    public class Job
     {
         #region Properties
         private int jobId = 0;
         private int machineId = 0;
         private int workerId = 0;
         private DateTime workDate = DateTime.Now;
+        private DateTime deadline = new DateTime(1, 1, 1);
         private bool complete = false;
 
         public int Id
@@ -44,6 +45,14 @@ namespace JobEngine
             get
             {
                 return workDate;
+            }
+        }
+
+        public DateTime Deadline
+        {
+            get
+            {
+                return deadline;
             }
         }
 
@@ -87,18 +96,20 @@ namespace JobEngine
         #endregion
 
         #region Constructors
-        public Job(int machine, int employee, DateTime task)
+        public Job(int machine, int employee, DateTime task, DateTime finish)
         {
             machineId = machine;
             workerId = employee;
             workDate = task;
+            deadline = finish;
         }
 
-        public Job(int machine, int employee, DateTime task, bool done)
+        public Job(int machine, int employee, DateTime task, DateTime finish, bool done)
         {
             machineId = machine;
             workerId = employee;
             workDate = task;
+            deadline = finish;
             complete = done;
         }
         #endregion
