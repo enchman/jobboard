@@ -10,6 +10,7 @@ namespace JobEngine
     {
         #region Properties
         private int employeeId = 0;
+        private int activeJob = -1;
         private string userName;
 
         public string Firstname { get; set; }
@@ -28,6 +29,18 @@ namespace JobEngine
             get
             {
                 return employeeId;
+            }
+        }
+
+        public int CurrentTaskId
+        {
+            get
+            {
+                return activeJob;
+            }
+            set
+            {
+                activeJob = value;
             }
         }
 
@@ -87,6 +100,7 @@ namespace JobEngine
                 Database db = new Database("setEmployee", param);
                 Load(db.Fetch());
             }
+
         }
 
         public void Edit()
@@ -105,6 +119,7 @@ namespace JobEngine
             {
                 Database db = new Database("SELECT * FROM [employees] ORDER BY [firstname] ASC");
                 List<Dictionary<string, object>> datalist = db.Fetch();
+
                 if(datalist != null)
                 {
                     List<Employee> workers = new List<Employee> { };

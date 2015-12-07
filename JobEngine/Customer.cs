@@ -27,6 +27,14 @@ namespace JobEngine
 
         public string Lastname { get; set; }
 
+        public string Fullname
+        {
+            get
+            {
+                return Firstname + " " + Lastname;
+            }
+        }
+
         public string Email { get; set; }
 
         public string Phone
@@ -52,14 +60,6 @@ namespace JobEngine
                 }
             }
         }
-
-        public string Fullname
-        {
-            get
-            {
-                return Firstname + " " + Lastname;
-            }
-        }
         #endregion
 
         #region Constructor
@@ -70,7 +70,7 @@ namespace JobEngine
 
         public Customer(int id)
         {
-            
+            customerId = id;
         }
 
         public Customer(string firstname, string lastname)
@@ -85,11 +85,107 @@ namespace JobEngine
             this.Lastname = lastname;
             this.Email = email;
         }
+
+        public Customer(string firstname, string lastname, string phone, string email)
+        {
+            this.Firstname = firstname;
+            this.Lastname = lastname;
+            this.Phone = phone;
+            this.Email = email;
+        }
+
+        public Customer(int id, string firstname, string lastname, string phone, string email)
+        {
+            this.customerId = id;
+            this.Firstname = firstname;
+            this.Lastname = lastname;
+            this.Phone = phone;
+            this.Email = email;
+        }
         #endregion
 
-        public void Sync()
+        /// <summary>
+        /// Create a Customer
+        /// </summary>
+        public void Create()
         {
+            if (Id == 0)
+            {
+                try
+                {
+                    Database db = new Database("setCustomer");
+                    db.Bind("firstname", Firstname);
+                    db.Bind("lastname", Lastname);
+                    db.Bind("phone", Phone);
+                    db.Bind("email", Email);
+                    Dictionary<string, object> data = db.GetProcedure();
+                    if(data.Count == 1)
+                    {
+                        customerId = (int)data["id"];
+                    }
+                    else if(data.Count > 1)
+                    {
+                        customerId = (int)data["id"];
+                        Firstname = (string)data["firstname"];
+                        Lastname = (string)data["lastname"];
+                        telephone = (string)data["phone"];
+                        Email = (string)data["email"];
+                    }
+                }
+                catch (Exception exc)
+                {
+                    Log.Record(exc);
+                }
+            }
+        }
 
+        public void AddOrder(Order order)
+        {
+            Orders.Add(order);
+        }
+
+        private void Load()
+        {
+            if(Id != 0)
+            {
+                List<Order> data = Order.GetOrders(Id);
+                if(data != null)
+                {
+                    Orders = data;
+                }
+            }
+        }
+
+        public static List<Customer> GetCustomers()
+        {
+            try
+            {
+                List<Dictionary<string,object>> datalist = new Database("SELECT * FROM [customers]").Fetch();
+                if(datalist != null)
+                {
+                    List<Customer> customers = new List<Customer> { };
+                    foreach (Dictionary<string, object> item in datalist)
+                    {
+                        int id = (int)item["id"];
+                        string firstname = (string)item["firstname"];
+                        string lastname = (string)item["lastname"];
+                        string email = (string)item["email"];
+                        string phone = (string)item["phone"];
+
+                        customers.Add(new Customer(id, firstname, lastname, phone, email));
+                    }
+                    return customers;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception exc)
+            {
+                Log.Record(exc);
+                return null;
+            }
         }
     }
 }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace JobBoard
 {
     /// <summary>
-    /// Interaction logic for MainPage.xaml
+    /// Interaction logic for WorkControl.xaml
     /// </summary>
-    public partial class MainPage : UserControl
+    public partial class WorkControl : UserControl
     {
-        public MainPage()
+        public WorkControl()
         {
             InitializeComponent();
         }

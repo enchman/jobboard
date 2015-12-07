@@ -81,15 +81,19 @@ namespace JobEngine
             {
                 Dictionary<string, object> param = new Dictionary<string, object> { };
                 param.Add("line", line);
-                param.Add("occurDate", DateTime.Now);
+                param.Add("date", DateTime.Now);
                 param.Add("method", method);
                 param.Add("file", TrimPath(path));
                 param.Add("message", exc.Message);
-                new Database("recordError", param).FetchProcedure();
+                new Database("recordError", param).Procedure();
             }
             catch
             {
-
+                Trace.WriteLine("Message: " + exc.Message);
+                Trace.WriteLine("Line: " + line);
+                Trace.WriteLine("Date: " + line);
+                Trace.WriteLine("Method: " + line);
+                Trace.WriteLine("Location: " + line);
             }
         }
 

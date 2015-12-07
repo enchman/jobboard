@@ -31,7 +31,13 @@ namespace JobBoard
 
         public static void Back()
         {
-
+            if(prevControl != null)
+            {
+                UserControl temp = currentControl;
+                currentControl = prevControl;
+                prevControl = temp;
+                CurrentPage.Navigate(prevControl);
+            }
         }
 
 

@@ -10,15 +10,43 @@ namespace JobEngine
     public class Machine: Operation
     {
         #region Properties
+        public enum Status { Stop, Acitve, Pause }
 
         /// <summary>
         /// Time process of work process in milisecond
         /// </summary>
         private readonly int ClockCycle = 1000;
-        private readonly int OverWork = 30;
-        private Timer process = null;
 
-        public Employee Worker { get; set; }
+        private Employee currentWorker = null;
+        private Timer process = null;
+        private Status activity = Status.Stop;
+
+        
+        public Status State
+        {
+            get
+            {
+                return activity;
+            }
+        }
+
+        public Employee Worker
+        {
+            get
+            {
+                return currentWorker;
+            }
+            set
+            {
+                // Verify Employee Shift
+                int index = value.Joblist.FindIndex(x => CheckTime(x.TaskDate));
+                if(index != -1)
+                {
+                    value.CurrentTaskId = index;
+                    currentWorker = value;
+                }
+            }
+        }
 
         #endregion
 
@@ -37,6 +65,10 @@ namespace JobEngine
 
         public void Start()
         {
+            // Giving Active status
+            activity = Status.Acitve;
+
+            // Start up Timer event
             if(process == null)
             {
                 process = new Timer(base.Duration * ClockCycle);
@@ -51,12 +83,17 @@ namespace JobEngine
         {
             if(process != null)
             {
+                // Giving Pause status
+                activity = Status.Pause;
                 process.Enabled = false;
             }
         }
 
         public void Stop()
         {
+            // Giving Stop status
+            activity = Status.Stop;
+
             if(process != null)
             {
                 // Stop event
@@ -74,7 +111,8 @@ namespace JobEngine
         {
             if(worker.Joblist != null)
             {
-                if(worker.Joblist.Any(x => CheckTime(x.TaskDate)))
+                int index = worker.Joblist.FindIndex(x => CheckTime(x.TaskDate));
+                if (index != -1)
                 {
                     Worker = worker;
                     return true;
@@ -96,7 +134,18 @@ namespace JobEngine
             {
                 base.numParts++;
                 // Need to check employee is complete the task, if so nullify Machine.Worker
-
+                // Get current task index
+                try
+                {
+                    if(!CheckTime(currentWorker.Joblist[currentWorker.CurrentTaskId].Deadline))
+                    {
+                        currentWorker.Joblist[currentWorker.CurrentTaskId].Complete = true;
+                    }
+                }
+                catch (Exception exc)
+                {
+                    Log.Record(exc);
+                }
             }
             else
             {
@@ -107,7 +156,7 @@ namespace JobEngine
 
         private bool CheckTime(DateTime date)
         {
-            if(date.DayOfYear == DateTime.Now.DayOfYear)
+            if(date.DayOfYear == DateTime.Now.DayOfYear && date.Year == DateTime.Now.Year)
             {
                 if (Production.EndHour == date.Hour && Production.EndMinute >= date.Minute)
                 {

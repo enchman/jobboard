@@ -16,20 +16,13 @@ using System.Windows.Shapes;
 namespace JobBoard
 {
     /// <summary>
-    /// Interaction logic for Screen.xaml
+    /// Interaction logic for ManagementControl.xaml
     /// </summary>
-    public partial class Screen : Window
+    public partial class ManagementControl : UserControl
     {
-        public Screen()
+        public ManagementControl()
         {
             InitializeComponent();
-            SwitchPage.CurrentPage = this;
-            SwitchPage.Next(new Menu());
-        }
-
-        public void Navigate(UserControl page)
-        {
-            this.Content = page;
         }
     }
 }

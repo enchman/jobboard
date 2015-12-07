@@ -13,7 +13,7 @@ namespace JobEngine
         private bool recallSql = false;
         private string connectString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Case.mdf;Integrated Security=True";
         private int numRows = 0;
-
+        
         public bool Recall
         {
             get
@@ -64,6 +64,20 @@ namespace JobEngine
         }
 
         /// <summary>
+        /// Binding Parameter
+        /// </summary>
+        /// <param name="paramName">Parameter's name</param>
+        /// <param name="paramValue">Parameter's value</param>
+        public void Bind(string paramName, object paramValue)
+        {
+            if(Parameters == null)
+            {
+                Parameters = new Dictionary<string, object> { };
+            }
+            Parameters.Add(paramName, paramValue);
+        }
+
+        /// <summary>
         /// Execute General SQL Query
         /// if needed for execute stored procedure use Database.Procedure() instead
         /// </summary>
@@ -109,6 +123,10 @@ namespace JobEngine
             }
         }
 
+        /// <summary>
+        /// Fetch Stored Procedure
+        /// </summary>
+        /// <returns>List Dictionary Array of data</returns>
         public List<Dictionary<string, object>> FetchProcedure()
         {
             try
@@ -116,6 +134,40 @@ namespace JobEngine
                 return Fetching(CommandType.StoredProcedure);
             }
             catch (Exception exc)
+            {
+                Error(exc);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Fetch Single row data
+        /// </summary>
+        /// <returns>Dictionary Array of data</returns>
+        public Dictionary<string, object> Get()
+        {
+            try
+            {
+                return Single(CommandType.Text);
+            }
+            catch (Exception exc)
+            {
+                Error(exc);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Fetch Stored Procedure, Single row data
+        /// </summary>
+        /// <returns>Dictionary Array of data</returns>
+        public Dictionary<string, object> GetProcedure()
+        {
+            try
+            {
+                return Single(CommandType.StoredProcedure);
+            }
+            catch(Exception exc)
             {
                 Error(exc);
                 return null;
@@ -232,6 +284,73 @@ namespace JobEngine
                         else
                         {
                             return dataList;
+                        }
+                    }
+                }
+            }
+        }
+
+        private Dictionary<string, object> Single(CommandType type)
+        {
+            // Database connection
+            using (SqlConnection connect = new SqlConnection(connectString))
+            {
+                // Validation Query string
+                CheckState();
+
+                // Open Database Connection
+                connect.Open();
+
+                // SQL Commands
+                using (SqlCommand command = new SqlCommand(Query, connect))
+                {
+                    // Prepare statement
+                    if (Parameters != null)
+                    {
+                        foreach (KeyValuePair<string, object> item in Parameters)
+                        {
+                            command.Parameters.AddWithValue("@" + item.Key, item.Value);
+                        }
+                    }
+
+                    // Query type
+                    if (type != CommandType.Text)
+                    {
+                        command.CommandType = type;
+                    }
+
+                    // Stored query
+                    if (recallSql)
+                    {
+                        command.Prepare();
+                    }
+
+                    // SQL Data results
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if(reader.Read())
+                        {
+                            // Prepare Associative array
+                            Dictionary<string, object> item = new Dictionary<string, object> { };
+
+                            // Adding SQL result in to array
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                item.Add(reader.GetName(i), reader.GetValue(i));
+                            }
+
+                            if(item.Count == 0)
+                            {
+                                return null;
+                            }
+                            else
+                            {
+                                return item;
+                            }
+                        }
+                        else
+                        {
+                            return null;
                         }
                     }
                 }
