@@ -5,8 +5,48 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JobBoard"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="500">
+             d:DesignHeight="600" d:DesignWidth="500">
     <Grid>
-            
+        <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" Height="Auto" Margin="0,20,0,0" VerticalAlignment="Stretch" Width="Auto">
+            <TabItem Header="Kunder">
+                <Grid>
+                    <StackPanel x:Name="panelCustomer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical">
+                        <StackPanel Height="30" Margin="0,10,0,0" Orientation="Horizontal">
+                            <StackPanel Width="60">
+                                <Label Content="ID" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Width="200">
+                                <Label Content="Navn" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Width="220">
+                                <Label Content="Email" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Height="20" Margin="0,10,0,0" Orientation="Horizontal">
+                            <StackPanel Width="60">
+                                <TextBlock Uid="1" Padding="15,0,0,0" HorizontalAlignment="Left" Text="1"/>
+                            </StackPanel>
+                            <StackPanel Width="200">
+                                <TextBlock Uid="1" Padding="15,0,0,0" HorizontalAlignment="Left" Text="Customer Customsen" Cursor="Hand" PreviewMouseDown="SelectCustomer_Click"/>
+                            </StackPanel>
+                            <StackPanel Width="220">
+                                <TextBlock Uid="1" Padding="15,0,0,0" HorizontalAlignment="Left" Text="customer@case.dk"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Ordre">
+                <Grid>
+                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Vare">
+                <Grid>
+                    
+                </Grid>
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </UserControl>

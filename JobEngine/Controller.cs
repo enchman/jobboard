@@ -8,8 +8,6 @@ namespace JobEngine
 {
     public class Controller
     {
-        private bool disposed = false;
-
         internal static List<Order> Orders = new List<Order> { };
         internal static List<Employee> Workers = new List<Employee> { };
         internal static Production production = new Production();
@@ -17,11 +15,6 @@ namespace JobEngine
         public Controller()
         {
             Load();
-        }
-
-        public void AddCustomer(Customer custom)
-        {
-
         }
 
         #region Control

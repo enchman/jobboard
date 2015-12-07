@@ -11,7 +11,7 @@ namespace JobEngine
         public enum Validation { Connecton, Query, Data }
 
         private bool recallSql = false;
-        private string connectString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Case.mdf;Integrated Security=True";
+        private string connectString = Environment.ExpandEnvironmentVariables(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Case.mdf;Integrated Security=True");
         private int numRows = 0;
         
         public bool Recall

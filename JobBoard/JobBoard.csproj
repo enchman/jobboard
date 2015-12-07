@@ -62,6 +62,7 @@
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
     <Compile Include="SwitchPage.cs" />
+    <Compile Include="ViewCustomer.cs" />
     <Compile Include="WorkControl.xaml.cs">
       <DependentUpon>WorkControl.xaml</DependentUpon>
     </Compile>
@@ -116,6 +117,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JobEngine\JobEngine.csproj">
+      <Project>{b610e561-d3cd-4cb5-b660-807b5ad248e8}</Project>
+      <Name>JobEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
