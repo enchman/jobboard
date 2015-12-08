@@ -14,6 +14,7 @@ namespace JobBoard
     class AdminController
     {
         private static List<Customer> clients = null;
+        private ManagementControl viewer = null;
 
         public List<Customer> Customers
         {
@@ -27,13 +28,28 @@ namespace JobBoard
             }
         }
 
-        public AdminController()
+        public AdminController(ManagementControl ui)
         {
-
+            viewer = ui;
         }
 
         #region Customers Section
-        private Border CustomerUI(Customer customer)
+
+        public void ShowCustomers(ref StackPanel ui)
+        {
+            if(Customers != null)
+            {
+                int i = 0;
+                foreach (Customer client in Customers)
+                {
+                    Border item = CustomerUI(client, i);
+                    ui.Children.Add(item);
+                    i++;
+                }
+            }
+        }
+
+        private Border CustomerUI(Customer customer, int index)
         {
             // Border
             Border border = new Border();
@@ -61,7 +77,7 @@ namespace JobBoard
             txt1.Padding = new Thickness(15, 0, 0, 0);
             txt1.HorizontalAlignment = HorizontalAlignment.Left;
 
-            txt1.Uid = customer.Id.ToString();
+            txt1.Uid = index.ToString();
             txt1.Text = customer.Id.ToString();
 
             // Name Block
@@ -70,8 +86,9 @@ namespace JobBoard
             txt2.HorizontalAlignment = HorizontalAlignment.Left;
             txt2.Cursor = Cursors.Hand;
 
-            txt2.PreviewMouseDown += SelectCustomer_Click;
-            txt2.Uid = customer.Id.ToString();
+            txt2.MouseDown += viewer.SelectCustomer_Click;
+            txt2.MouseUp += viewer.SelectCustomer_Click;
+            txt2.Uid = index.ToString();
             txt2.Text = customer.Fullname;
 
             // Email Block
@@ -79,7 +96,7 @@ namespace JobBoard
             txt3.Padding = new Thickness(10, 0, 0, 0);
             txt3.HorizontalAlignment = HorizontalAlignment.Left;
 
-            txt3.Uid = customer.Id.ToString();
+            txt3.Uid = index.ToString();
             txt3.Text = customer.Email;
 
             // Appending
@@ -96,28 +113,10 @@ namespace JobBoard
             return border;
         }
 
-        private void ShowCustomers(ref StackPanel ui)
-        {
-            if(Customers != null)
-            {
-                foreach (Customer client in Customers)
-                {
-                    Border item = CustomerUI(client);
-                    ui.Children.Add(ui);
-                }
-            }
-        }
-
-        private void SelectCustomer_Click(object sender, MouseButtonEventArgs e)
+        private void SwitchTab(object sender, MouseButtonEventArgs e)
         {
 
         }
         #endregion
-
-        private void Load()
-        {
-
-        }
-        
     }
 }

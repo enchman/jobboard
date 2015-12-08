@@ -64,7 +64,6 @@
     </Compile>
     <Compile Include="ScheduleController.cs" />
     <Compile Include="SwitchPage.cs" />
-    <Compile Include="ViewCustomer.cs" />
     <Compile Include="WorkControl.xaml.cs">
       <DependentUpon>WorkControl.xaml</DependentUpon>
     </Compile>

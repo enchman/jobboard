@@ -8,5 +8,6 @@ namespace JobBoard
 {
     class ScheduleController
     {
+
     }
 }
