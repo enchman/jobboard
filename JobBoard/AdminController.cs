@@ -8,53 +8,32 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
-using System.Drawing;
 
 namespace JobBoard
 {
-
-    class ViewCustomer
+    class AdminController
     {
-        private List<Customer> customers = null;
-        private ManagementControl parent = null;
-        private int clientIndex = 0;
+        private static List<Customer> clients = null;
 
-        public ViewCustomer(ManagementControl ui)
+        public List<Customer> Customers
         {
-            parent = ui;
-            GetCustomers();
-
-        }
-
-        public void Show()
-        {
-            if(customers != null)
+            get
             {
-                foreach(Customer client in customers)
+                if(clients == null)
                 {
-                    CustomerList(client);
+                    clients = Customer.GetCustomers();
                 }
+                return clients;
             }
         }
 
-        #region Events
-        private void SelectCustomer_Click(object sender, MouseButtonEventArgs e)
+        public AdminController()
         {
-            parent.tabControl.SelectedIndex = 1;
-            Console.WriteLine(parent.tabControl.SelectedIndex);
-            
-        }
-        #endregion
 
-        private void GetCustomers()
-        {
-            if (customers == null)
-            {
-                customers = Customer.GetCustomers();
-            }
         }
 
-        private void CustomerList(Customer customer)
+        #region Customers Section
+        private Border CustomerUI(Customer customer)
         {
             // Border
             Border border = new Border();
@@ -81,7 +60,7 @@ namespace JobBoard
             TextBlock txt1 = new TextBlock();
             txt1.Padding = new Thickness(15, 0, 0, 0);
             txt1.HorizontalAlignment = HorizontalAlignment.Left;
-            
+
             txt1.Uid = customer.Id.ToString();
             txt1.Text = customer.Id.ToString();
 
@@ -99,7 +78,7 @@ namespace JobBoard
             TextBlock txt3 = new TextBlock();
             txt3.Padding = new Thickness(10, 0, 0, 0);
             txt3.HorizontalAlignment = HorizontalAlignment.Left;
-            
+
             txt3.Uid = customer.Id.ToString();
             txt3.Text = customer.Email;
 
@@ -114,8 +93,31 @@ namespace JobBoard
 
             border.Child = panel;
 
-            parent.panelCustomer.Children.Add(border);
-            clientIndex++;
+            return border;
         }
+
+        private void ShowCustomers(ref StackPanel ui)
+        {
+            if(Customers != null)
+            {
+                foreach (Customer client in Customers)
+                {
+                    Border item = CustomerUI(client);
+                    ui.Children.Add(ui);
+                }
+            }
+        }
+
+        private void SelectCustomer_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+
+        private void Load()
+        {
+
+        }
+        
     }
 }

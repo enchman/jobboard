@@ -22,6 +22,7 @@
                                 <Label Content="Email" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </StackPanel>
                         </StackPanel>
+                        <!--
                         <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                             <StackPanel Height="20" Margin="0,10,0,0" Orientation="Horizontal">
                                 <StackPanel Width="60">
@@ -35,6 +36,7 @@
                                 </StackPanel>
                             </StackPanel>
                         </Border>
+                        -->
                     </StackPanel>
                 </Grid>
             </TabItem>

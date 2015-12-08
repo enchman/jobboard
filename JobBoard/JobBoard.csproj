@@ -55,12 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminController.cs" />
     <Compile Include="ManagementControl.xaml.cs">
       <DependentUpon>ManagementControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScheduleController.cs" />
     <Compile Include="SwitchPage.cs" />
     <Compile Include="ViewCustomer.cs" />
     <Compile Include="WorkControl.xaml.cs">

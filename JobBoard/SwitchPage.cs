@@ -14,6 +14,14 @@ namespace JobBoard
         private static UserControl currentControl;
         private static UserControl prevControl;
 
+        public static UserControl CurrentControl
+        {
+            get
+            {
+                return currentControl;
+            }
+        }
+
         public static void Next(UserControl page)
         {
             if (currentControl == null)
