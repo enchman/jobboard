@@ -54,13 +54,9 @@ namespace JobEngine
             employeeId = id;
         }
 
-        public Employee(string firstname)
+        public Employee(string user, string firstname, string lastname)
         {
-            Firstname = firstname;
-        }
-
-        public Employee(string firstname, string lastname)
-        {
+            userName = user;
             Firstname = firstname;
             Lastname = lastname;
         }
@@ -92,15 +88,24 @@ namespace JobEngine
         {
             if(Id == 0 && Firstname != null && Lastname != null && Username != null)
             {
-                Dictionary<string, object> param = new Dictionary<string, object> { };
-                param.Add("firstname", Firstname);
-                param.Add("lastname", Lastname);
-                param.Add("user", Username);
+                try
+                {
+                    Database db = new Database("setEmployee");
+                    db.Bind("user", Username);
+                    db.Bind("firstname", Firstname);
+                    db.Bind("lastname", Lastname);
+                    Dictionary<string, object> data = db.GetProcedure();
 
-                Database db = new Database("setEmployee", param);
-                Load(db.Fetch());
+                    employeeId = (int)data["id"];
+                    userName = (string)data["user"];
+                    Firstname = (string)data["firstname"];
+                    Lastname = (string)data["lastname"];
+                }
+                catch (Exception exc)
+                {
+                    Log.Record(exc);
+                }
             }
-
         }
 
         public void Edit()
@@ -171,36 +176,36 @@ namespace JobEngine
             }
         }
 
-        private void Load(List<Dictionary<string, object>> data)
-        {
-            if(data.Count != 0)
-            {
-                Dictionary<string, object> source = data.ElementAt(0);
-                employeeId = (int)source["id"];
-                userName = (string)source["user"];
-                Firstname = (string)source["firstname"];
-                Lastname = (string)source["lastname"];
+        //private void Load(List<Dictionary<string, object>> data)
+        //{
+        //    if(data.Count != 0)
+        //    {
+        //        Dictionary<string, object> source = data.ElementAt(0);
+        //        employeeId = (int)source["id"];
+        //        userName = (string)source["user"];
+        //        Firstname = (string)source["firstname"];
+        //        Lastname = (string)source["lastname"];
 
-                // Load task for each Employee
-                Dictionary<string, object> param = new Dictionary<string, object> { };
-                param.Add("id", employeeId);
-                List<Dictionary<string, object>> block = new Database("getTask", param).FetchProcedure();
+        //        // Load task for each Employee
+        //        Dictionary<string, object> param = new Dictionary<string, object> { };
+        //        param.Add("id", employeeId);
+        //        List<Dictionary<string, object>> block = new Database("getTask", param).FetchProcedure();
 
-                // Checking if Employee have any task
-                if (block != null)
-                {
-                    foreach (Dictionary<string, object> jobdata in block)
-                    {
-                        int mid = (int)jobdata["machineId"];
-                        int eid = (int)jobdata["employeeId"];
-                        DateTime aDate = (DateTime)jobdata["activeDate"];
-                        DateTime dDate = (DateTime)jobdata["deadline"];
-                        bool jid = (bool)jobdata["completed"];
+        //        // Checking if Employee have any task
+        //        if (block != null)
+        //        {
+        //            foreach (Dictionary<string, object> jobdata in block)
+        //            {
+        //                int mid = (int)jobdata["machineId"];
+        //                int eid = (int)jobdata["employeeId"];
+        //                DateTime aDate = (DateTime)jobdata["activeDate"];
+        //                DateTime dDate = (DateTime)jobdata["deadline"];
+        //                bool jid = (bool)jobdata["completed"];
 
-                        Joblist.Add(new Job(mid, eid, aDate, dDate, jid));
-                    }
-                }
-            }
-        }
+        //                Joblist.Add(new Job(mid, eid, aDate, dDate, jid));
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

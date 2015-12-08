@@ -111,6 +111,11 @@ namespace JobEngine
             }
         }
 
+        public void Edit()
+        {
+
+        }
+
         public void Delete()
         {
 

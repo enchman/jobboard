@@ -8,8 +8,6 @@ namespace JobEngine
 {
     public class Database
     {
-        public enum Validation { Connecton, Query, Data }
-
         private bool recallSql = false;
         private string connectString = Environment.ExpandEnvironmentVariables(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Sam\Documents\GitHub\eal\jobboard\JobEngine\Case.mdf;Integrated Security=True");
         private int numRows = 0;
@@ -362,18 +360,6 @@ namespace JobEngine
             if (Query == null)
             {
                 throw new Exception("Empty query");
-            }
-        }
-
-        private void CheckState(Validation valid)
-        {
-            if (valid == Validation.Query && Query == null)
-            {
-                throw new Exception("Empty query");
-            }
-            else if (valid == Validation.Connecton && connectString == null)
-            {
-                throw new Exception("Empty connection string");
             }
         }
     }
