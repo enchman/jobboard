@@ -21,27 +21,32 @@ namespace JobBoard
     /// </summary>
     public partial class ManagementControl : UserControl
     {
-        private AdminController control;
+        private AdminController adminControl;
 
         public ManagementControl()
         {
             InitializeComponent();
-            control = new AdminController(this);
+            adminControl = new AdminController(this);
             // Show customers list
-            control.ShowCustomers(ref panelCustomer);
+            adminControl.ShowCustomers(ref panelCustomer);
         }
+
+
 
         internal void SelectCustomer_Click(object sender, MouseButtonEventArgs e)
         {
-            tabCustomer.IsSelected = false;
-            tabOrder.IsSelected = true;
-            tabMain.SelectedIndex = 1;
+            TextBlock item = sender as TextBlock;
+            try
+            {
+                adminControl.CurrentClient = Convert.ToInt32(item.Uid);
+                tabCustomer.IsSelected = false;
+                tabOrder.IsSelected = true;
+                tabMain.SelectedIndex = 1;
+            }
+            catch
+            {
 
-        }
-
-        private void buttonTest_Click(object sender, RoutedEventArgs e)
-        {
-            tabMain.SelectedIndex = 1;
+            }
         }
     }
 }

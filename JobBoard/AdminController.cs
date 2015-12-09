@@ -13,18 +13,20 @@ namespace JobBoard
 {
     class AdminController
     {
-        private static List<Customer> clients = null;
+        public static List<Customer> Clients = null;
         private ManagementControl viewer = null;
+
+        public int CurrentClient { get; set; }
 
         public List<Customer> Customers
         {
             get
             {
-                if(clients == null)
+                if(Clients == null)
                 {
-                    clients = Customer.GetCustomers();
+                    Clients = Customer.GetCustomers();
                 }
-                return clients;
+                return Clients;
             }
         }
 
@@ -113,10 +115,11 @@ namespace JobBoard
             return border;
         }
 
-        private void SwitchTab(object sender, MouseButtonEventArgs e)
+        private Border OrderUI()
         {
-
+            return new Border();
         }
+
         #endregion
     }
 }
