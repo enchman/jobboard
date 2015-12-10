@@ -20,12 +20,21 @@ namespace JobBoard
     /// </summary>
     public partial class OrderLineControl : UserControl
     {
+        
         public OrderLineControl(List<Item> items)
         {
             InitializeComponent();
+        }
+
+        private void ShowItems(List<Item> items)
+        {
 
         }
 
+        internal void Additem_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
 
     }
 }

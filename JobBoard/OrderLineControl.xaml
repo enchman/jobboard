@@ -42,7 +42,7 @@
                                     <TextBlock Uid="1" Text="1" TextAlignment="Center"/>
                                 </StackPanel>
                                 <StackPanel Width="90" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Content="+" Padding="5,0" Margin="35,0,0,0" Foreground="LightGreen" Click="SelectOrder_Click"/>
+                                    <Button Content="+" Padding="5,0" Margin="35,0,0,0" Foreground="LightGreen"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>

@@ -35,7 +35,9 @@ namespace JobBoard
 
         internal void SelectOrder_Click(object sender, RoutedEventArgs e)
         {
-            popup = new PopupWindow();
+            // Prepare & Show Popup
+            popup = new PopupWindow(new OrderLineControl(adminControl.ItemList));
+            popup.Show();
         }
 
         internal void SelectCustomer_Click(object sender, MouseButtonEventArgs e)
