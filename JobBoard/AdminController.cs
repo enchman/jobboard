@@ -14,7 +14,9 @@ namespace JobBoard
     class AdminController
     {
         public static List<Customer> Clients = null;
+        private static List<Item> items = null;
         private ManagementControl viewer = null;
+        
 
         public int CurrentClient { get; set; }
 
@@ -27,6 +29,18 @@ namespace JobBoard
                     Clients = Customer.GetCustomers();
                 }
                 return Clients;
+            }
+        }
+
+        public List<Item> ItemList
+        {
+            get
+            {
+                if (items == null)
+                {
+                    items = Item.GetItems();
+                }
+                return items;
             }
         }
 
@@ -117,6 +131,7 @@ namespace JobBoard
 
         private Border OrderUI()
         {
+
             return new Border();
         }
 

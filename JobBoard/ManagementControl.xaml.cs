@@ -22,6 +22,7 @@ namespace JobBoard
     public partial class ManagementControl : UserControl
     {
         private AdminController adminControl;
+        private PopupWindow popup;
 
         public ManagementControl()
         {
@@ -32,6 +33,10 @@ namespace JobBoard
         }
 
 
+        internal void SelectOrder_Click(object sender, RoutedEventArgs e)
+        {
+            popup = new PopupWindow();
+        }
 
         internal void SelectCustomer_Click(object sender, MouseButtonEventArgs e)
         {

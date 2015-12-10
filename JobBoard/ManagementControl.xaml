@@ -73,7 +73,8 @@
                                         <TextBlock Uid="1" Text="09-12-2015 08:40:30" TextAlignment="Center"/>
                                     </StackPanel>
                                     <StackPanel Width="60" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        
+                                        <Button Content="+" Padding="5,0" Foreground="LightGreen" Click="SelectOrder_Click" />
+                                        <Button Content="x" Padding="5,0" Margin="10,0,0,0" Foreground="Red" />
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
