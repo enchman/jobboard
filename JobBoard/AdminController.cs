@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace JobBoard
 {
-    class AdminController
+    public class AdminController
     {
         public static List<Customer> Clients = null;
         private static List<Item> items = null;
@@ -49,6 +49,11 @@ namespace JobBoard
             viewer = ui;
         }
 
+        public void AddUserControl(UserControl control)
+        {
+            viewer = control;
+        }
+
         #region Customers Section
 
         public void ShowCustomers(ref StackPanel ui)
@@ -67,7 +72,30 @@ namespace JobBoard
 
         public void ShowItems(ref StackPanel ui)
         {
-            //if(items)
+            if(ItemList != null)
+            {
+                int i = 0;
+                foreach (Item item in ItemList)
+                {
+                    Border bord = ItemUI(item, i);
+                    ui.Children.Add(bord);
+                    i++;
+                }
+            }
+        }
+
+        public void ShowItems(ref StackPanel ui, List<Item> atoms)
+        {
+            if (atoms != null)
+            {
+                int i = 0;
+                foreach (Item item in atoms)
+                {
+                    Border bord = ItemUI(item, i);
+                    ui.Children.Add(bord);
+                    i++;
+                }
+            }
         }
 
         /*
@@ -88,7 +116,6 @@ namespace JobBoard
             </StackPanel>
         </Border>
         */
-
 
         private Border ItemUI(Item stuff, int index)
         {
@@ -114,7 +141,10 @@ namespace JobBoard
             StackPanel sub3 = new StackPanel();
             sub3.Width = 90;
             StackPanel sub4 = new StackPanel();
+            sub4.Orientation = Orientation.Horizontal;
+            sub4.HorizontalAlignment = HorizontalAlignment.Center;
             sub4.Width = 90;
+
 
             // Text & Button
             TextBlock data1 = new TextBlock();
@@ -134,6 +164,7 @@ namespace JobBoard
 
             Button data4 = new Button();
             data4.Uid = index.ToString();
+            //data4.Width = 20;
             data4.Padding = new Thickness(5, 0, 5, 0);
             data4.Margin = new Thickness(35, 0, 0, 0);
             data4.Foreground = Brushes.LightGreen;

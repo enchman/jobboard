@@ -36,7 +36,7 @@ namespace JobBoard
         internal void SelectOrder_Click(object sender, RoutedEventArgs e)
         {
             // Prepare & Show Popup
-            popup = new PopupWindow(new OrderLineControl(adminControl.ItemList));
+            popup = new PopupWindow(new OrderLineControl());
             popup.Show();
         }
 

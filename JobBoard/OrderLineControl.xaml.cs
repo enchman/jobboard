@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using JobEngine;
+
 namespace JobBoard
 {
     /// <summary>
@@ -20,15 +21,25 @@ namespace JobBoard
     /// </summary>
     public partial class OrderLineControl : UserControl
     {
+        private AdminController adminControl;
         
-        public OrderLineControl(List<Item> items)
+        public OrderLineControl()
         {
             InitializeComponent();
+            adminControl = new AdminController(this);
+            ShowItemList();
         }
 
-        private void ShowItems(List<Item> items)
+        public OrderLineControl(AdminController control)
         {
+            adminControl = control;
+            adminControl.AddUserControl(this);
+            adminControl.ShowItems(ref panelItem);
+        }
 
+        private void ShowItemList()
+        {
+            adminControl.ShowItems(ref panelItem, adminControl.ItemList);
         }
 
         internal void Additem_Click(object sender, RoutedEventArgs e)
