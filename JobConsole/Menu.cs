@@ -55,7 +55,7 @@ namespace JobConsole
                     break;
                 case 4:
                     // Create item
-
+                    ViewOrders();
                     break;
                 case 5:
                     // Create item
@@ -138,13 +138,14 @@ namespace JobConsole
                         int index = clients.FindIndex(x => x.Id == id);
                         if (index != -1)
                         {
+                            Console.Beep(600, 500);
                             customer = clients[index];
                             run = false;
                         }
                     }
                     catch
                     {
-
+                        Console.Beep(1000, 500);
                     }
                     Console.ResetColor();
                     Console.Clear();
@@ -152,6 +153,7 @@ namespace JobConsole
             }
             else
             {
+                Console.Beep(600, 500);
                 Console.WriteLine("There is no customer yet");
                 Console.WriteLine("Press any to continue...");
                 Console.ReadKey();
@@ -260,6 +262,7 @@ namespace JobConsole
                 }
                 catch(Exception exc)
                 {
+                    Console.Beep(1000, 500);
                     Log.Record(exc);
                 }
             }
@@ -343,7 +346,7 @@ namespace JobConsole
                             }
                             catch
                             {
-                                
+                                Console.Beep(1000, 500);
                             }
                         }
 
@@ -356,12 +359,14 @@ namespace JobConsole
                     }
                     else
                     {
+                        Console.Beep(600, 500);
                         Console.WriteLine("Invalid item");
                     }
 
                 }
                 catch
                 {
+                    Console.Beep(1000, 500);
                     Console.WriteLine("Invalid Item ID");
                 }
 
@@ -436,6 +441,7 @@ namespace JobConsole
                         }
                         else
                         {
+                            Console.Beep(600, 500);
                             Console.ForegroundColor = ConsoleColor.DarkGray;
                             Console.WriteLine("Not found...");
                             Console.ResetColor();
@@ -469,8 +475,48 @@ namespace JobConsole
 
         public void ViewOrders()
         {
+            int opt = 0;
+            bool update = false;
+            do
+            {
+                // Sync order
+                if(!update)
+                {
+                    customer.Orders = Order.GetOrders(customer.Id);
+                }
 
+                Console.WriteLine("ID \t Dato");
+
+                foreach (Order order in customer.Orders)
+                {
+                    Console.WriteLine("{0} \t {1}", order.Id, order.OrderDate.ToString("dd-MM-YYYY HH:mm:ss"));
+                }
+
+                Console.WriteLine("\nENTER to select Order");
+                Console.WriteLine("\nESC to go back");
+
+                while(Console.ReadKey().Key != ConsoleKey.Escape)
+                {
+                    Console.WriteLine("Choose Order ID: ");
+                    string input = Console.ReadLine();
+                }
+            }
+            while (OrderOption(ref opt));
         }
+
+        private bool OrderOption(ref int choice)
+        {
+            ConsoleKey key = Console.ReadKey().Key;
+            if (key != ConsoleKey.Escape)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         #region Text Display

@@ -56,6 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AdminController.cs" />
+    <Compile Include="CreateCustomerControl.xaml.cs">
+      <DependentUpon>CreateCustomerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ManagementControl.xaml.cs">
       <DependentUpon>ManagementControl.xaml</DependentUpon>
     </Compile>
@@ -73,6 +76,10 @@
     <Compile Include="WorkControl.xaml.cs">
       <DependentUpon>WorkControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="CreateCustomerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ManagementControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

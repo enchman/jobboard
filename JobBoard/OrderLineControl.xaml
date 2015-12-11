@@ -33,7 +33,7 @@
                         <Border BorderBrush="Black" Height="30" Padding="0,4" BorderThickness="0,0,0,1">
                             <StackPanel Height="20" Orientation="Horizontal">
                                 <StackPanel Width="60">
-                                    <TextBlock Uid="1" TextAlignment="Center" Text="1"/>
+                                    <TextBlock Uid="1" TextAlignment="Center" Text="0"/>
                                 </StackPanel>
                                 <StackPanel Width="250">
                                     <TextBlock Uid="1" Text="Hanne" TextAlignment="Center"/>
