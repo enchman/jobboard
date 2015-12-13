@@ -23,6 +23,14 @@ namespace JobEngine
             }
         }
 
+        public int OwnerId
+        {
+            get
+            {
+                return customerId;
+            }
+        }
+
         public DateTime OrderDate
         {
             get
@@ -183,6 +191,10 @@ namespace JobEngine
                         orderId = (int)data["id"];
                     }
                 }
+                else
+                {
+                    orderlines = OrderLine.GetOrderLine(Id);
+                }
             }
             catch (Exception exc)
             {
@@ -206,7 +218,7 @@ namespace JobEngine
                     int cid = (int)item["customerId"];
                     DateTime oDate = (DateTime)item["orderDate"];
                     DateTime eDate = (DateTime)item["expectDate"];
-                    DateTime? dDate = (DateTime?)item["deliverDate"];
+                    DateTime? dDate = item["deliverDate"] as DateTime?;
 
                     orders.Add(new Order(id, cid, oDate, eDate, dDate));
                 }
@@ -234,7 +246,7 @@ namespace JobEngine
                     int cid = (int)item["customerId"];
                     DateTime oDate = (DateTime)item["orderDate"];
                     DateTime eDate = (DateTime)item["expectDate"];
-                    DateTime? dDate = (DateTime?)item["deliverDate"];
+                    DateTime? dDate = item["deliverDate"] as DateTime?;
 
                     orders.Add(new Order(id, cid, oDate, eDate, dDate));
                 }
@@ -251,7 +263,7 @@ namespace JobEngine
         {
             Database db = new Database("getOrder");
             db.Bind("id", id);
-            List<Dictionary<string, object>> data = db.Fetch();
+            List<Dictionary<string, object>> data = db.FetchProcedure();
 
             if (data != null)
             {
@@ -263,8 +275,9 @@ namespace JobEngine
                     int cid = (int)item["customerId"];
                     DateTime oDate = (DateTime)item["orderDate"];
                     DateTime eDate = (DateTime)item["expectDate"];
-                    DateTime? dDate = (DateTime?)item["deliverDate"];
-                    
+                    DateTime? dDate = item["deliverDate"] as DateTime?;
+
+
                     orders.Add(new Order(oid, cid, oDate, eDate, dDate));
                 }
 

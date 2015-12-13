@@ -40,12 +40,20 @@ namespace JobBoard
             popup.Show();
         }
 
+        internal void DeleteOrder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         internal void SelectCustomer_Click(object sender, MouseButtonEventArgs e)
         {
             TextBlock item = sender as TextBlock;
             try
             {
                 adminControl.CurrentClient = Convert.ToInt32(item.Uid);
+                orderTabContent.Children.Clear();
+                adminControl.ShowOrders(ref orderTabContent);
+
                 tabCustomer.IsSelected = false;
                 tabOrder.IsSelected = true;
                 tabMain.SelectedIndex = 1;

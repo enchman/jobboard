@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace JobConsole
         private List<Item> stocks = null;
         private List<Customer> clients = null;
         private Dictionary<int, string> machines = null;
-
+        private Item currentItem;
         #region Constructor
         public Menu()
         {
@@ -34,8 +35,8 @@ namespace JobConsole
             {
                 Action();
             }
-
             Console.WriteLine("Ha' en god dag...");
+            Thread.Sleep(1500);
         }
 
         private void Action()
@@ -54,7 +55,7 @@ namespace JobConsole
                     AddOrder();
                     break;
                 case 4:
-                    // Create item
+                    // View orders
                     ViewOrders();
                     break;
                 case 5:
@@ -138,9 +139,12 @@ namespace JobConsole
                         int index = clients.FindIndex(x => x.Id == id);
                         if (index != -1)
                         {
-                            Console.Beep(600, 500);
                             customer = clients[index];
                             run = false;
+                        }
+                        else
+                        {
+                            Console.Beep(600, 500);
                         }
                     }
                     catch
@@ -475,34 +479,202 @@ namespace JobConsole
 
         public void ViewOrders()
         {
-            int opt = 0;
-            bool update = false;
-            do
+            if(customer != null)
             {
-                // Sync order
-                if(!update)
+                Console.Clear();
+                try
                 {
-                    customer.Orders = Order.GetOrders(customer.Id);
+                    int opt = 0;
+                    bool update = false;
+                    do
+                    {
+                        // Sync order
+                        if (!update)
+                        {
+                            customer.Orders = Order.GetOrders(customer.Id);
+                        }
+
+                        Console.WriteLine("ID \t Dato\n");
+
+                        foreach (Order order in customer.Orders)
+                        {
+                            Console.WriteLine("{0} \t {1}", order.Id, order.OrderDate.ToString("dd-MM-yyyy HH:mm:ss"));
+                        }
+
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("\n\nENTER to select Order");
+                        Console.WriteLine("ESC to go back");
+                        Console.ResetColor();
+
+                        //while (Console.ReadKey().Key != ConsoleKey.Escape)
+                        //{
+                        //    Console.WriteLine("Choose Order ID: ");
+                        //    string input = Console.ReadLine();
+                        //}
+                    }
+                    while (OrderOption(ref opt));
+                    Console.Clear();
                 }
-
-                Console.WriteLine("ID \t Dato");
-
-                foreach (Order order in customer.Orders)
+                catch (Exception e)
                 {
-                    Console.WriteLine("{0} \t {1}", order.Id, order.OrderDate.ToString("dd-MM-YYYY HH:mm:ss"));
-                }
-
-                Console.WriteLine("\nENTER to select Order");
-                Console.WriteLine("\nESC to go back");
-
-                while(Console.ReadKey().Key != ConsoleKey.Escape)
-                {
-                    Console.WriteLine("Choose Order ID: ");
-                    string input = Console.ReadLine();
+                    Log.Record(e);
                 }
             }
-            while (OrderOption(ref opt));
+            else
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Please select a customer before view orders");
+                Console.ResetColor();
+                Console.Beep(1000, 500);
+            }
         }
+
+        private void SelectOrder()
+        {
+            try
+            {
+                Order current = null;
+                while (true)
+                {
+                    Console.Clear();
+                    Console.WriteLine("ID \t Dato\n");
+                    foreach (Order order in customer.Orders)
+                    {
+                        Console.WriteLine("{0} \t {1}", order.Id, order.OrderDate.ToString("dd-MM-yyyy HH:mm:ss"));
+                    }
+
+                    Console.Write("\nSelect Order ID: ");
+                    int id = int.Parse(Console.ReadLine());
+
+                    
+
+                    current = customer.Orders.Find(x => x.Id == id);
+                    if(current != null)
+                    {
+                        SelectItemLine(current);
+                        break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Record(e);
+            }
+        }
+
+        private void SelectItemLine(Order input)
+        {
+            input.Sync();
+            
+            if(input.Items != null)
+            {
+                Console.WriteLine("Order {0}", input.Id);
+                Console.WriteLine("ID \t Name \t Quantity");
+
+                foreach (OrderLine line in input.Items)
+                {
+                    Item data = stocks.Find(x => x.Id == line.ItemId);
+                    Console.WriteLine("{0} \t {1} \t {2}", line.ItemId, data.Name, line.Quantity);
+                }
+                // Break STOP
+
+            }
+        }
+
+        private bool ShowItems()
+        {
+            try
+            {
+                if (stocks == null)
+                {
+                    stocks = Item.GetItems();
+                }
+
+                if (stocks != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("Green");
+                    Console.ResetColor();
+                    Console.Write(": Item in order");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("White");
+                    Console.ResetColor();
+                    Console.WriteLine(": Item is in stock");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.Write("Gray");
+                    Console.ResetColor();
+                    Console.WriteLine(": Item is out of stock\n");
+
+                    int start = 0;
+                    int offset = 0;
+                    int select = 0;
+                    while(true)
+                    {
+                        ConsoleKey key = Console.ReadKey().Key;
+                        if (key == ConsoleKey.DownArrow)
+                        {
+                            
+                        }
+                        else if (key == ConsoleKey.UpArrow)
+                        {
+
+                        }
+                        else if (key == ConsoleKey.LeftArrow)
+                        {
+
+                        }
+                        else if (key == ConsoleKey.RightArrow)
+                        {
+
+                        }
+                        else if (key == ConsoleKey.Enter)
+                        {
+
+                        }
+                        else if (key == ConsoleKey.Escape)
+                        {
+
+                        }
+                    }
+
+                    Console.WriteLine("ID \t Name\n");
+                    for (int i = 1; i < 10; i++)
+                    {
+                        Console.WriteLine("{0} \t {1}", stocks[i].Id, stocks[i].Name);
+                    }
+                    foreach (Item item in stocks)
+                    {
+                        Console.WriteLine("{0} \t {1}");
+                    }
+
+                    Console.Write("\nItem ID: ");
+                    int id = int.Parse(Console.ReadLine());
+
+                    currentItem = stocks.Find(x => x.Id == id);
+                    
+                    if(currentItem != null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Record(e);
+                return false;
+            }
+        }
+
+        
 
         private bool OrderOption(ref int choice)
         {

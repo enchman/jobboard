@@ -12,8 +12,7 @@ namespace JobEngine
         #region Properties
         private int customerId = 0;
         private string telephone;
-
-        public List<Order> Orders = new List<Order> { };
+        private List<Order> orderlist = new List<Order> { };
 
         public int Id
         {
@@ -36,6 +35,19 @@ namespace JobEngine
         }
 
         public string Email { get; set; }
+
+        public List<Order> Orders
+        {
+            get
+            {
+                orderlist = Order.GetOrders(Id);
+                return orderlist;
+            }
+            set
+            {
+                orderlist = value;
+            }
+        }
 
         public string Phone
         {

@@ -70,6 +70,20 @@ namespace JobBoard
             }
         }
 
+        public void ShowOrders(ref StackPanel ui)
+        {
+            if(Clients[CurrentClient].Orders != null)
+            {
+                int i = 0;
+                foreach (Order order in Clients[CurrentClient].Orders)
+                {
+                    Border elm = OrderUI(order, i);
+                    ui.Children.Add(elm);
+                    i++;
+                }
+            }
+        }
+
         public void ShowItems(ref StackPanel ui)
         {
             if(ItemList != null)
@@ -99,23 +113,85 @@ namespace JobBoard
         }
 
         /*
-        <Border BorderBrush="Black" Height="30" Padding="0,4" BorderThickness="0,0,0,1">
-            <StackPanel Height="20" Orientation="Horizontal">
+        <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+            <StackPanel Height="20" Margin="0,10,0,0" Orientation="Horizontal">
                 <StackPanel Width="60">
-                    <TextBlock Uid="1" TextAlignment="Center" Text="1"/>
+                    <TextBlock Uid="1" Padding="15,0,0,0" TextAlignment="Center" Text="1"/>
                 </StackPanel>
-                <StackPanel Width="250">
-                    <TextBlock Uid="1" Text="Hanne" TextAlignment="Center"/>
+                <StackPanel Width="200">
+                    <TextBlock Uid="1" Text="Sam Møller" TextAlignment="Center"/>
                 </StackPanel>
-                <StackPanel Width="90">
-                    <TextBlock Uid="1" Text="1" TextAlignment="Center"/>
+                <StackPanel Width="160">
+                    <TextBlock Uid="1" Text="09-12-2015 08:40:30" TextAlignment="Center"/>
                 </StackPanel>
-                <StackPanel Width="90" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="+" Padding="5,0" Margin="35,0,0,0" Foreground="LightGreen"/>
+                <StackPanel Width="60" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="+" Padding="5,0" Foreground="LightGreen" Click="SelectOrder_Click" />
+                    <Button Content="x" Padding="5,0" Margin="10,0,0,0" Foreground="Red" />
                 </StackPanel>
             </StackPanel>
         </Border>
         */
+        private Border OrderUI(Order order, int index)
+        {
+            ManagementControl view = viewer as ManagementControl;
+
+            Border bord = new Border();
+            bord.BorderBrush = Brushes.Black;
+            bord.BorderThickness = new Thickness(0, 0, 0, 1);
+
+            // Main panel
+            StackPanel panel = new StackPanel();
+            panel.Height = 20;
+            panel.Margin = new Thickness(0, 10, 0, 0);
+            panel.Orientation = Orientation.Horizontal;
+
+            // Sub panel
+            StackPanel sub1 = new StackPanel();
+            sub1.Width = 60;
+            StackPanel sub2 = new StackPanel();
+            sub2.Width = 200;
+            StackPanel sub3 = new StackPanel();
+            sub3.Width = 160;
+            StackPanel sub4 = new StackPanel();
+            sub4.Width = 60;
+            sub4.Orientation = Orientation.Horizontal;
+            sub4.HorizontalAlignment = HorizontalAlignment.Center;
+
+            Customer owner = Customers.Find(x => x.Id == order.OwnerId);
+            // Content
+            TextBlock data1 = new TextBlock();
+            data1.Uid = index.ToString();
+            data1.Padding = new Thickness(15, 0, 0, 0);
+            data1.TextAlignment = TextAlignment.Center;
+            data1.Text = order.Id.ToString();
+
+            TextBlock data2 = new TextBlock();
+            data2.Uid = index.ToString();
+            data2.TextAlignment = TextAlignment.Center;
+            data2.Text = owner.Fullname;
+
+            TextBlock data3 = new TextBlock();
+            data3.Uid = index.ToString();
+            data3.TextAlignment = TextAlignment.Center;
+            data3.Text = order.OrderDate.ToString("dd-MM-YYYY HH:mm:ss");
+
+            Button data4 = new Button();
+            data4.Uid = index.ToString();
+            data4.Padding = new Thickness(5, 0, 5, 0);
+            data4.Foreground = Brushes.LightGreen;
+            data4.Click += view.SelectOrder_Click;
+            data4.Content = "+";
+
+            Button data5 = new Button();
+            data5.Uid = index.ToString();
+            data5.Padding = new Thickness(5, 0, 5, 0);
+            data5.Margin = new Thickness(10, 0, 0, 0);
+            data5.Foreground = Brushes.Red;
+            data5.Click += view.DeleteOrder_Click;
+            data5.Content = "x";
+
+            return bord;
+        }
 
         private Border ItemUI(Item stuff, int index)
         {
