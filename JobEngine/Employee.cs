@@ -44,6 +44,14 @@ namespace JobEngine
             }
         }
 
+        public string Fullname
+        {
+            get
+            {
+                return Firstname + " " + Lastname;
+            }
+        }
+
         public List<Job> Joblist { get; set; }
 
         #endregion
