@@ -13,6 +13,7 @@ namespace JobConsole
     {
         static void Main(string[] args)
         {
+
             Initialize();
             //DateTime time = DateTime.Now.AddDays(5);
             //Console.WriteLine(time.ToString());
