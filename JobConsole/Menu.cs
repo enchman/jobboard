@@ -501,16 +501,25 @@ namespace JobConsole
                             Console.WriteLine("{0} \t {1}", order.Id, order.OrderDate.ToString("dd-MM-yyyy HH:mm:ss"));
                         }
 
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine("\n\nENTER to select Order");
-                        Console.WriteLine("ESC to go back");
-                        Console.ResetColor();
+                        while (true)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine("\n\nENTER to select Order");
+                            Console.WriteLine("ESC to go back");
+                            Console.ResetColor();
+                            ConsoleKey key = Console.ReadKey().Key;
 
-                        //while (Console.ReadKey().Key != ConsoleKey.Escape)
-                        //{
-                        //    Console.WriteLine("Choose Order ID: ");
-                        //    string input = Console.ReadLine();
-                        //}
+                            if (key == ConsoleKey.Enter)
+                            {
+                                Console.WriteLine("Choose Order ID: ");
+                                string input = Console.ReadLine();
+                            }
+                            else if (key == ConsoleKey.Escape)
+                            {
+                                break;
+                            }
+                            Console.Clear();
+                        }
                     }
                     while (OrderOption(ref opt));
                     Console.Clear();
